@@ -244,6 +244,7 @@ class Handler(SimpleHTTPRequestHandler):
         if not target.is_file(): self.send_error(404); return
         raw = target.read_bytes(); self.send_response(200)
         self.send_header("Content-Type", mimetypes.guess_type(target.name)[0] or "application/octet-stream")
+        self.send_header("Cache-Control", "no-cache")
         self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw)
 
     def do_POST(self):
