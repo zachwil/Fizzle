@@ -2,9 +2,9 @@
 Version=1.0
 Type=Application
 Name=Drakkenheim Campaign
-Comment=Open the local Drakkenheim campaign dashboard
+Comment=Start the campaign portal and open the secure DM dashboard
 Exec="/home/zachw/Documents/Drakkenheim Campaign/launch-drakkenheim.sh"
 Icon=/home/zachw/Documents/Drakkenheim Campaign/static/drakkenheim-icon.svg
 Terminal=false
-Categories=Game;Utility;
+Categories=Game;
 StartupNotify=true

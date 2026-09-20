@@ -15,6 +15,12 @@ if [[ -f "$CONFIG_FILE" ]]; then
   set +a
 fi
 
+# Restore public HTTPS access if Funnel was previously stopped. The one-time
+# `tailscale set --operator` setup allows this to run without sudo.
+if [[ -n "${PUBLIC_URL:-}" ]] && command -v tailscale >/dev/null 2>&1; then
+  tailscale funnel --bg 8765 >/dev/null 2>&1 || true
+fi
+
 if curl --silent --fail --max-time 1 "$HEALTH_URL" >/dev/null 2>&1; then
   xdg-open "$APP_URL" >/dev/null 2>&1
   exit 0
