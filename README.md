@@ -32,3 +32,15 @@ The included `render.yaml` creates a Starter web service and a 1 GB persistent d
 4. Open `/dm` for the authenticated DM dashboard or `/portal` for player login.
 
 The hosted database is stored at `/var/data/campaign.db`. It is separate from the local `campaign.db`, which is intentionally excluded from Git. Sourcebook files under `resources/` are also excluded.
+
+## Publish the local app with Tailscale Funnel
+
+To keep `campaign.db` on this computer while allowing browser access over the internet, put the following in the ignored `.env` file:
+
+```bash
+PUBLIC_URL=https://your-device.your-tailnet.ts.net
+DM_USERNAME=dm
+DM_PASSWORD=choose-a-strong-password
+```
+
+The desktop launcher reads this file automatically. Start the app, then publish its local port with `tailscale funnel --bg 8765`. The computer and app must remain running while the portal is in use.

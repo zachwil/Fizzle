@@ -1,0 +1,14 @@
+[Unit]
+Description=Drakkenheim Campaign Portal
+After=network-online.target tailscaled.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/zachw/Documents/Drakkenheim Campaign
+EnvironmentFile=/home/zachw/Documents/Drakkenheim Campaign/.env
+ExecStart=/usr/bin/python3 "/home/zachw/Documents/Drakkenheim Campaign/app.py"
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target
