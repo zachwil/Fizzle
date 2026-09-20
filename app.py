@@ -189,7 +189,8 @@ class Handler(SimpleHTTPRequestHandler):
         if not row: return None
         player = row_dict(row); extra = player.get("extra", {})
         if extra.get("archived"): return None
-        allowed = ("character_name", "pronouns", "class_name", "ancestry", "background", "relationships", "goals")
+        allowed = ("character_name", "pronouns", "class_name", "ancestry", "level", "armor_class", "max_hp",
+                   "passive_perception", "speed", "initiative", "spell_save_dc", "background", "relationships", "goals")
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
         safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"]} for x in letters]
@@ -397,7 +398,9 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path == "/api/portal/profile":
             player_id = self.player_session()
             if not player_id: self.json({"error":"Please log in"}, 401); return
-            d = self.body(); allowed = ("character_name", "pronouns", "class_name", "ancestry", "background", "relationships", "goals")
+            d = self.body(); allowed = ("character_name", "pronouns", "class_name", "ancestry", "level", "armor_class",
+                                        "max_hp", "passive_perception", "speed", "initiative", "spell_save_dc",
+                                        "background", "relationships", "goals")
             with db() as conn:
                 row = conn.execute("SELECT extra FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
                 if not row: self.json({"error":"Player not found"}, 404); return

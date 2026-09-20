@@ -1,0 +1,10 @@
+.quick-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:16px 0 4px}
+.quick-stat{min-width:0;padding:9px 7px;border:1px solid #514938;background:#10120f;text-align:center}
+.quick-stat b{display:block;color:#eee4cf;font-size:18px;font-weight:normal;line-height:1.2}
+.quick-stat small{display:block;margin-top:3px;color:#aaa08c;font:9px Arial,sans-serif;letter-spacing:.8px;text-transform:uppercase}
+.player-card .quick-stats{grid-template-columns:repeat(3,minmax(0,1fr));margin:12px 0 24px}
+.player-card .quick-stat{padding:7px 4px}
+.player-card .quick-stat b{font-size:15px}
+.player-card .quick-stat small{font-size:8px}
+.viewer-quick-stats{margin:18px 0 0}
+@media(max-width:600px){.quick-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
