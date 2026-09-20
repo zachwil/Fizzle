@@ -192,6 +192,14 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlparse(self.path)
+        host = self.headers.get("Host", "").lower()
+        direct_local_host = host == "localhost" or host.startswith("localhost:") or host == "127.0.0.1" or host.startswith("127.0.0.1:")
+        if PUBLIC_URL and direct_local_host and parsed.path in ("/dm", "/dm/", "/dashboard", "/dashboard/"):
+            destination = "/dm" if parsed.path.startswith("/dm") else "/dashboard"
+            self.send_response(302)
+            self.send_header("Location", f"{PUBLIC_URL}{destination}")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers(); return
         if parsed.path == "/api/dm/me":
             if (not PUBLIC_URL and self.is_local()) or self.dm_session(): self.json({"authenticated":True}); return
             self.json({"authenticated":False}, 401); return

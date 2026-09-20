@@ -15,6 +15,10 @@ if [[ -f "$CONFIG_FILE" ]]; then
   set +a
 fi
 
+if [[ -n "${PUBLIC_URL:-}" ]]; then
+  APP_URL="${PUBLIC_URL%/}/dm"
+fi
+
 # Restore public HTTPS access if Funnel was previously stopped. The one-time
 # `tailscale set --operator` setup allows this to run without sudo.
 if [[ -n "${PUBLIC_URL:-}" ]] && command -v tailscale >/dev/null 2>&1; then
