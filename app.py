@@ -20,7 +20,7 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", ROOT))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB = DATA_DIR / "campaign.db"
 STATIC = ROOT / "static"
-KINDS = {"player", "character", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map"}
+KINDS = {"player", "character", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message"}
 SESSIONS = {}
 DM_SESSIONS = set()
 PORT = int(os.environ.get("PORT", "8765"))
@@ -289,6 +289,31 @@ class Handler(SimpleHTTPRequestHandler):
                 account = conn.execute("SELECT username FROM player_accounts WHERE player_id=?", (player_id,)).fetchone()
                 set_password(conn, player_id, account["username"], password, 0)
             self.json({"ok":True}); return
+        if self.path == "/api/portal/messages":
+            player_id = self.player_session()
+            if not player_id: self.json({"error":"Please log in"}, 401); return
+            if not self.portal_data(player_id): self.json({"error":"This player is archived"}, 403); return
+            d = self.body()
+            message_type = str(d.get("message_type", "")).strip().lower()
+            subject = str(d.get("subject", "")).strip()
+            message = str(d.get("message", "")).strip()
+            if message_type not in ("quest", "letter"):
+                self.json({"error":"Choose a personal quest update or a letter"}, 400); return
+            if not message:
+                self.json({"error":"Write a message before sending"}, 400); return
+            if len(subject) > 120 or len(message) > 5000:
+                self.json({"error":"Subject or message is too long"}, 400); return
+            with db() as conn:
+                player = conn.execute("SELECT name FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
+                if not player: self.json({"error":"Player not found"}, 404); return
+                label = "Personal Quest Update" if message_type == "quest" else "Letter"
+                title = subject or label
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type})
+                cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
+                    VALUES('message',?,?,?,?,?,?)""",
+                    (f"{label} — {player['name']}: {title}", f"Private dispatch from {player['name']}", message,
+                     "private, player dispatch", "Unread", extra))
+            self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/player-account/"):
             if not self.require_local(): return
             try: player_id = int(self.path.rsplit("/",1)[1])
