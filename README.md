@@ -1,4 +1,4 @@
-# Drakkenheim Campaign Archive
+# FIzzle Campaign Archive
 
 A private campaign organizer with separate Dungeon Master and player views. It can run locally or as a hosted Render service.
 
