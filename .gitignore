@@ -1,0 +1,7 @@
+campaign.db
+campaign.db-*
+dashboard.log
+__pycache__/
+*.pyc
+resources/
+.env

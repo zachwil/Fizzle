@@ -1,0 +1,180 @@
+:root {
+  --ink: #eee4cf;
+  --muted: #aaa08c;
+  --paper: #0d0d0c;
+  --panel: #191814;
+  --line: #514938;
+  --acid: #c7d95a;
+  --red: #8f3d39;
+  --royal: #72518f;
+  --gold: #b99b5a;
+}
+
+body {
+  background-color: #0c0c0b;
+  background-image:
+    linear-gradient(rgba(9, 9, 8, .91), rgba(9, 9, 8, .95)),
+    repeating-linear-gradient(22deg, transparent 0 8px, rgba(255,255,255,.025) 9px 10px),
+    radial-gradient(circle at 72% 8%, #34273e 0, transparent 33%);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 120px #000;
+  z-index: 20;
+}
+
+aside {
+  position: relative;
+  background: linear-gradient(90deg, #0b0b0a, #14130f);
+  border-right: 1px solid var(--gold);
+  box-shadow: 8px 0 30px #0008;
+}
+
+aside::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: -4px;
+  bottom: 8px;
+  width: 6px;
+  border: solid var(--gold);
+  border-width: 0 1px;
+  opacity: .35;
+  pointer-events: none;
+}
+
+.brand {
+  border-bottom: 3px double #50452e;
+  text-shadow: 0 2px 6px #000;
+}
+.brand > span { color: var(--acid); filter: drop-shadow(0 0 8px #a8bf3e66); }
+.brand b { font-variant: small-caps; letter-spacing: 2.7px; }
+
+nav button {
+  position: relative;
+  font-variant: small-caps;
+  letter-spacing: .5px;
+}
+nav button:hover, nav button.active {
+  background: linear-gradient(90deg, #31283a, #201c22 70%, transparent);
+}
+nav button.active {
+  border-left-color: var(--acid);
+  color: #f3ead7;
+  text-shadow: 0 0 10px #c7d95a33;
+}
+
+main { position: relative; }
+main::before, main::after {
+  content: "✦";
+  position: fixed;
+  color: var(--gold);
+  opacity: .22;
+  font-size: 20px;
+}
+main::before { top: 17px; left: 270px; }
+main::after { right: 20px; bottom: 15px; }
+
+header {
+  border-bottom: 3px double #5d523c;
+  position: relative;
+}
+header::after {
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  width: 22px;
+  text-align: center;
+  color: var(--gold);
+  background: #0e0e0c;
+}
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: .4px;
+  text-shadow: 0 2px 4px #000;
+}
+h1 { font-variant: small-caps; letter-spacing: 1.4px; }
+.eyebrow { color: var(--gold); }
+
+.primary {
+  background: linear-gradient(#d3df69, #a8ba3c);
+  border-color: #dce978;
+  box-shadow: inset 0 0 0 1px #6f7928, 0 2px 8px #0008;
+  font-family: Georgia, serif;
+  font-variant: small-caps;
+  letter-spacing: .6px;
+}
+.primary:hover { filter: brightness(1.1); }
+
+.search, input, textarea, select {
+  background-color: #11110f;
+  border-color: #554d3a;
+  box-shadow: inset 0 1px 5px #0009;
+}
+input:focus, textarea:focus, select:focus {
+  outline: 1px solid var(--gold);
+  border-color: var(--gold);
+}
+
+.stat, .card, .empty, .roller {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(185,155,90,.07), transparent 35%),
+    linear-gradient(145deg, #201e19, #151512);
+  border: 1px solid #574e39;
+  box-shadow: inset 0 0 0 2px #12120f, 0 5px 16px #0005;
+}
+.stat::before, .card::before, .roller::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #7e6d4738;
+  pointer-events: none;
+}
+.card { border-radius: 1px; }
+.card:hover {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 2px #171612, 0 8px 22px #0009, 0 0 14px #72518f33;
+}
+.card .kind { color: #b89acb; }
+.card .star { color: var(--acid); }
+.stat b { color: #e6d7b8; }
+
+.section-head { margin-top: 4px; }
+.section-head h2::before { content: "❧ "; color: var(--gold); }
+.section-head h2::after { content: " ❧"; color: var(--gold); }
+
+.roller {
+  background:
+    radial-gradient(circle at 50% 0, #493258 0, transparent 44%),
+    linear-gradient(145deg, #201d22, #121310);
+  border-width: 2px;
+  border-color: #72518f;
+}
+.rumor-result { border: 3px double #5b5037; }
+.rumor-result .die {
+  border-color: var(--acid);
+  box-shadow: 0 0 14px #bdd64f30, inset 0 0 12px #bdd64f18;
+}
+
+dialog {
+  background: linear-gradient(145deg, #211f1a, #121311);
+  border: 3px double var(--gold);
+  border-radius: 0;
+}
+dialog::backdrop { background: #050406df; backdrop-filter: blur(2px); }
+.modal-head { background: linear-gradient(90deg, #261d2c, transparent); }
+
+.quick-launch { border-top: 3px double #50452e; }
+.quick-launch a:hover { background: linear-gradient(90deg, #31283a, transparent); }
+.aside-foot { font-style: italic; }
+
+@media (max-width: 850px) {
+  main::before, main::after { display: none; }
+}

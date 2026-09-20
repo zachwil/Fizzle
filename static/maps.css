@@ -1,0 +1,3 @@
+.external-card { color: var(--ink); text-decoration: none; display: block; }
+.external-card:hover { border-color: var(--acid); }
+.map-records { margin-top: 32px; }

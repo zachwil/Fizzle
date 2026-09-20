@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: drakkenheim-campaign
+    runtime: python
+    plan: starter
+    buildCommand: ""
+    startCommand: python3 app.py
+    healthCheckPath: /portal
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: PUBLIC_URL
+        sync: false
+      - key: DM_USERNAME
+        value: dm
+      - key: DM_PASSWORD
+        sync: false
+    disk:
+      name: campaign-data
+      mountPath: /var/data
+      sizeGB: 1

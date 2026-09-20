@@ -1,0 +1,32 @@
+.roller {
+  background: radial-gradient(circle at 80% 20%, #34351f, transparent 42%), linear-gradient(135deg, #20231c, #171916);
+  border: 1px solid #4a4e35;
+  padding: 28px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.roller h2 { font-size: 27px; margin-bottom: 18px; }
+.rumor-result {
+  min-height: 112px;
+  max-width: 800px;
+  margin: 0 auto 20px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: #11130f;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 20px;
+}
+.rumor-result .die {
+  flex: 0 0 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--acid);
+  color: var(--acid);
+  font-size: 20px;
+}
+.rumor-result p { margin: 4px 0; color: var(--ink); font-size: 17px; }
+.rumor-result small { font: 10px Arial; color: var(--acid); letter-spacing: 1.4px; }
+.roll { min-width: 140px; }

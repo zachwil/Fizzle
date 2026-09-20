@@ -1,0 +1,28 @@
+.quick-launch {
+  margin-top: 24px;
+  padding: 18px 8px 6px;
+  border-top: 1px solid var(--line);
+}
+.quick-launch p {
+  margin: 0 4px 9px;
+  color: #656a59;
+  font: 9px Arial, sans-serif;
+  letter-spacing: 1.7px;
+}
+.quick-launch a {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 7px;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.quick-launch a:hover {
+  color: var(--ink);
+  background: #20231c;
+}
+.quick-launch a span { color: var(--acid); }
+.quick-launch a b { color: #686d5d; font-weight: normal; }

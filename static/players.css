@@ -1,0 +1,14 @@
+.player-card { min-height: 175px; }
+.player-card .character-name { color: var(--ink); font-size: 17px; margin: 12px 0 4px; }
+.player-card .character-name em { color: var(--muted); font-size: 14px; }
+.player-fields { margin: 8px 0; padding: 5px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.player-fields > label { display: block; margin: 16px 26px; }
+.player-fields.hidden { display: none; }
+.portal-access { margin: 18px 26px; padding: 17px; border: 1px solid var(--line); background: #11120f; }
+.portal-access .form-grid { margin: 0; }
+.portal-access small { color: var(--muted); }
+.archive-status { display:block; margin:20px 26px!important; padding:13px; border:1px solid #6d493f; background:#281b18; }
+.archived-head { margin-top: 36px; opacity: .72; }
+.archived-grid { opacity: .58; }
+.archived-grid .player-card { filter: grayscale(.35); }
+.form-error { color:#d47a70; margin:0 26px 12px; min-height:20px; }
