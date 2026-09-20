@@ -11,6 +11,8 @@
 .portal-reset-row button { background:transparent; border:1px solid var(--acid); border-radius:3px; color:var(--ink); cursor:pointer; padding:9px 12px; }
 .portal-reset-row button:disabled { cursor:wait; opacity:.55; }
 .portal-reset-row span { color:var(--acid); font-size:13px; }
+.dm-letter { border-top:1px solid var(--line); margin-top:18px; padding-top:18px; }
+.dm-letter label { display:block; margin:12px 0; }
 .archive-status { display:block; margin:20px 26px!important; padding:13px; border:1px solid #6d493f; background:#281b18; }
 .archived-head { margin-top: 36px; opacity: .72; }
 .archived-grid { opacity: .58; }

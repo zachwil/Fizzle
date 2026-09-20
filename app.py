@@ -182,13 +182,18 @@ class Handler(SimpleHTTPRequestHandler):
             row = conn.execute("SELECT * FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
             account = conn.execute("SELECT username,must_change FROM player_accounts WHERE player_id=?", (player_id,)).fetchone()
             sessions = [row_dict(x) for x in conn.execute("SELECT * FROM entries WHERE kind='session' ORDER BY json_extract(extra,'$.date')")]
+            letters = [row_dict(x) for x in conn.execute("""SELECT * FROM entries
+                WHERE kind='message' AND json_extract(extra,'$.direction')='dm_to_player'
+                AND CAST(json_extract(extra,'$.player_id') AS INTEGER)=?
+                ORDER BY created_at DESC""", (player_id,))]
         if not row: return None
         player = row_dict(row); extra = player.get("extra", {})
         if extra.get("archived"): return None
         allowed = ("character_name", "pronouns", "class_name", "ancestry", "background", "relationships", "goals")
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
-        return {"player":player, "sessions":sessions, "username":account["username"], "must_change":bool(account["must_change"])}
+        safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"]} for x in letters]
+        return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"])}
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -317,11 +322,32 @@ class Handler(SimpleHTTPRequestHandler):
                 if not player: self.json({"error":"Player not found"}, 404); return
                 label = "Personal Quest Update" if message_type == "quest" else "Letter"
                 title = subject or label
-                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type})
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type, "direction":"player_to_dm"})
                 cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
                     VALUES('message',?,?,?,?,?,?)""",
                     (f"{label} — {player['name']}: {title}", f"Private dispatch from {player['name']}", message,
                      "private, player dispatch", "Unread", extra))
+            self.json({"ok":True,"id":cur.lastrowid}, 201); return
+        if self.path.startswith("/api/player-letter/"):
+            if not self.require_local(): return
+            try: player_id = int(self.path.rsplit("/", 1)[1])
+            except ValueError: self.send_error(404); return
+            d = self.body(); subject = str(d.get("subject", "")).strip(); message = str(d.get("message", "")).strip()
+            if not message: self.json({"error":"Write a letter before sending"}, 400); return
+            if len(subject) > 120 or len(message) > 5000:
+                self.json({"error":"Subject or letter is too long"}, 400); return
+            with db() as conn:
+                player = conn.execute("SELECT name,extra FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
+                if not player: self.json({"error":"Player not found"}, 404); return
+                try: player_extra = json.loads(player["extra"] or "{}")
+                except json.JSONDecodeError: player_extra = {}
+                if player_extra.get("archived"): self.json({"error":"Archived players cannot receive letters"}, 409); return
+                title = subject or "A Letter from the DM"
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":"letter", "direction":"dm_to_player"})
+                cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
+                    VALUES('message',?,?,?,?,?,?)""",
+                    (f"Letter to {player['name']}: {title}", f"Private letter sent to {player['name']}", message,
+                     "private, DM letter", "Sent", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/player-account/"):
             if not self.require_local(): return
