@@ -242,6 +242,12 @@ class Handler(SimpleHTTPRequestHandler):
                 self.json({"ip":"Hosted", "portal_url":f"{PUBLIC_URL}/portal"}); return
             ip = local_network_ip()
             self.json({"ip":ip, "portal_url":f"http://{ip}:8080/portal"}); return
+        if parsed.path == "/api/inbox-count":
+            if not self.require_local(): return
+            with db() as conn:
+                count = conn.execute("""SELECT count(*) FROM entries WHERE kind='message' AND status='Unread'
+                    AND (json_extract(extra,'$.direction')='player_to_dm' OR json_extract(extra,'$.direction') IS NULL)""").fetchone()[0]
+            self.json({"unread":count}); return
         if parsed.path.startswith("/resources/"):
             if not self.require_local(): return
             target = (ROOT / unquote(parsed.path.lstrip("/"))).resolve()
@@ -349,6 +355,18 @@ class Handler(SimpleHTTPRequestHandler):
                     (f"Letter to {player['name']}: {title}", f"Private letter sent to {player['name']}", message,
                      "private, DM letter", "Sent", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
+        if self.path.startswith("/api/messages/") and self.path.endswith("/read"):
+            if not self.require_local(): return
+            try: message_id = int(self.path.split("/")[3])
+            except (ValueError, IndexError): self.send_error(404); return
+            with db() as conn:
+                row = conn.execute("SELECT extra FROM entries WHERE id=? AND kind='message'", (message_id,)).fetchone()
+                if not row: self.json({"error":"Message not found"}, 404); return
+                try: extra = json.loads(row["extra"] or "{}")
+                except json.JSONDecodeError: extra = {}
+                if extra.get("direction") == "dm_to_player": self.json({"error":"Outgoing letters are already sent"}, 409); return
+                conn.execute("UPDATE entries SET status='Read',updated_at=CURRENT_TIMESTAMP WHERE id=?", (message_id,))
+            self.json({"ok":True}); return
         if self.path.startswith("/api/player-account/"):
             if not self.require_local(): return
             try: player_id = int(self.path.rsplit("/",1)[1])
