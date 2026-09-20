@@ -7,8 +7,13 @@
 .portal-access { margin: 18px 26px; padding: 17px; border: 1px solid var(--line); background: #11120f; }
 .portal-access .form-grid { margin: 0; }
 .portal-access small { color: var(--muted); }
+.portal-reset-row { display:flex; align-items:center; gap:12px; margin:14px 0 10px; }
+.portal-reset-row button { background:transparent; border:1px solid var(--acid); border-radius:3px; color:var(--ink); cursor:pointer; padding:9px 12px; }
+.portal-reset-row button:disabled { cursor:wait; opacity:.55; }
+.portal-reset-row span { color:var(--acid); font-size:13px; }
 .archive-status { display:block; margin:20px 26px!important; padding:13px; border:1px solid #6d493f; background:#281b18; }
 .archived-head { margin-top: 36px; opacity: .72; }
 .archived-grid { opacity: .58; }
 .archived-grid .player-card { filter: grayscale(.35); }
 .form-error { color:#d47a70; margin:0 26px 12px; min-height:20px; }
+@media(max-width:600px) { .portal-reset-row { align-items:stretch; flex-direction:column; } }
