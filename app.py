@@ -214,7 +214,9 @@ class Handler(SimpleHTTPRequestHandler):
                    "passive_perception", "speed", "initiative", "spell_save_dc", "background", "relationships", "goals")
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
-        safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"]} for x in letters]
+        safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"],
+                         "message_type":x.get("extra", {}).get("message_type", "letter"),
+                         "roll":x.get("extra", {}).get("roll", "")} for x in letters]
         return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
 
     def do_GET(self):
@@ -438,6 +440,26 @@ class Handler(SimpleHTTPRequestHandler):
                     VALUES('message',?,?,?,?,?,?)""",
                     (f"Letter to {player['name']}: {title}", f"Private letter sent to {player['name']}", message,
                      "private, DM letter", "Sent", extra))
+            self.json({"ok":True,"id":cur.lastrowid}, 201); return
+        if self.path.startswith("/api/player-rumor/"):
+            if not self.require_local(): return
+            try: player_id = int(self.path.rsplit("/", 1)[1])
+            except ValueError: self.send_error(404); return
+            d = self.body(); rumor = str(d.get("rumor", "")).strip(); roll = str(d.get("roll", "")).strip()
+            if not rumor: self.json({"error":"Roll a rumor before sending"}, 400); return
+            if len(rumor) > 2000 or len(roll) > 20: self.json({"error":"Rumor is too long"}, 400); return
+            with db() as conn:
+                player = conn.execute("SELECT name,extra FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
+                if not player: self.json({"error":"Player not found"}, 404); return
+                try: player_extra = json.loads(player["extra"] or "{}")
+                except json.JSONDecodeError: player_extra = {}
+                if player_extra.get("archived"): self.json({"error":"Archived players cannot receive rumors"}, 409); return
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":"rumor",
+                                    "direction":"dm_to_player", "roll":roll})
+                cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
+                    VALUES('message',?,?,?,?,?,?)""",
+                    (f"Rumor to {player['name']}: d100 result {roll or '—'}", f"Rumor shared with {player['name']}", rumor,
+                     "private, rumor", "Sent", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/messages/") and self.path.endswith("/read"):
             if not self.require_local(): return

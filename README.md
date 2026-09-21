@@ -15,6 +15,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Session calendar and session-preparation task list
 - Favorites, statuses, tags, and structured campaign notes
 - d100 Drakkenheim rumour roller
+- Private rumor delivery to individual players with per-character delivery history
 - Fantasy Name Forge with gender and ancestry options plus a persistent saved-name bank
 - Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic NPC initiative rolls from modifiers, manual sorting, turn highlighting, and round tracking
 - Unified Source Library on the Overview and Resources pages

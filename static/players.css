@@ -50,6 +50,12 @@
 .viewer-compose-actions { display:flex; align-items:center; justify-content:flex-end; gap:14px; color:var(--acid); }
 .viewer-compose-actions button:disabled { cursor:wait; opacity:.55; }
 .correspondence-thread { margin-top:26px; padding-top:22px; border-top:3px double #685a3c; }
+.rumor-ledger { margin-top:24px; padding:22px; border:1px solid #5d6339; background:linear-gradient(145deg,#202419,#141611); }
+.received-rumor { display:grid; grid-template-columns:48px 1fr; gap:14px; align-items:start; padding:14px 0; border-top:1px solid var(--line); }
+.received-rumor:first-of-type { border-top:0; }
+.rumor-roll { display:grid; place-items:center; width:42px; height:42px; border:1px solid var(--acid); color:var(--acid); font-size:16px; }
+.received-rumor small { color:var(--muted); font:9px Arial,sans-serif; letter-spacing:1px; }
+.received-rumor p { margin:5px 0 0; line-height:1.55; }
 .thread-title { display:grid; grid-template-columns:1fr auto; align-items:end; margin-bottom:15px; }
 .thread-title .eyebrow { grid-column:1/-1; }
 .thread-title h3 { margin:0; font-size:22px; font-weight:normal; }

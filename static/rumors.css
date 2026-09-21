@@ -30,3 +30,10 @@
 .rumor-result p { margin: 4px 0; color: var(--ink); font-size: 17px; }
 .rumor-result small { font: 10px Arial; color: var(--acid); letter-spacing: 1.4px; }
 .roll { min-width: 140px; }
+.rumor-actions { display:flex; justify-content:center; align-items:end; flex-wrap:wrap; gap:12px; }
+.rumor-actions label { min-width:230px; text-align:left; }
+.rumor-actions select { display:block; margin-top:5px; }
+.rumor-actions button { min-height:42px; padding:9px 16px; border:1px solid var(--line); background:#171a15; color:var(--ink); cursor:pointer; }
+.rumor-actions button:disabled { cursor:not-allowed; opacity:.4; }
+.rumor-status { min-height:22px; margin:12px 0 0; color:var(--acid); }
+@media(max-width:600px){.rumor-actions,.rumor-actions label,.rumor-actions button{width:100%}}
