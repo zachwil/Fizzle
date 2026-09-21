@@ -34,6 +34,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 
 - Separate presentation-only login suitable for an iPad or shared screen
 - Live initiative order, round number, and highlighted current turn
+- Full-width initiative-only layout with automatic two-column overflow handling
 - DM-controlled message broadcasts
 - DM-controlled image uploads up to 6 MB
 - Standard, full-screen message, and full-screen image layouts

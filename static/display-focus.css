@@ -10,3 +10,8 @@
 .table-display.focus-image .display-message-card{display:none!important}
 .table-display.focus-image .display-image-card{display:grid;place-items:center;min-height:100vh;padding:18px;border:0;background:#050605}
 .table-display.focus-image .display-image-card img{width:100%;height:calc(100vh - 36px);max-height:none;object-fit:contain}
+.table-display.initiative-only .display-grid{grid-template-columns:minmax(0,1fr)}
+.table-display.initiative-only .display-initiative{width:100%}
+.table-display.initiative-only aside{display:none}
+.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 18px}
+@media(max-width:700px){.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:1fr}}
