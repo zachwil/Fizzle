@@ -16,7 +16,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Favorites, statuses, tags, and structured campaign notes
 - d100 Drakkenheim rumour roller
 - Fantasy Name Forge with gender and ancestry options plus a persistent saved-name bank
-- Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic sorting, turn highlighting, and round tracking
+- Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic NPC initiative rolls from modifiers, manual sorting, turn highlighting, and round tracking
 - Unified Source Library on the Overview and Resources pages
 - Automatic discovery and linking of files and subfolders placed in `resources/`
 
@@ -93,8 +93,8 @@ The player must choose a new password after logging in with a reset temporary pa
 ## Initiative and table display
 
 1. Open **Initiative Tracker** in the DM sidebar.
-2. Add active player characters and any number of saved or custom NPCs.
-3. Enter initiative values and select **Start**.
+2. Add active player characters and any number of saved or custom NPCs. NPCs roll automatically using the supplied initiative modifier.
+3. Enter player initiative values, then select **Sort** or **Start**.
 4. Use **Next Turn** to advance the highlighted combatant and round.
 5. Open **Table Display** in the DM sidebar to send a message, upload an image, or select a presentation focus mode.
 6. On the iPad, open `/display` and log in with the display account.
