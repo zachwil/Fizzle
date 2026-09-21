@@ -323,6 +323,8 @@ class Handler(SimpleHTTPRequestHandler):
                 if image and (not image.startswith("data:image/") or len(image) > 8_000_000):
                     self.json({"error":"Use an image smaller than 6 MB"}, 413); return
                 state["image"] = image
+            if "message" in d and not state["message"] and state.get("focus") == "message": state["focus"] = "standard"
+            if "image" in d and not state["image"] and state.get("focus") == "image": state["focus"] = "standard"
             with db() as conn: conn.execute("UPDATE display_state SET payload=?,updated_at=CURRENT_TIMESTAMP WHERE id=1", (json.dumps(state),))
             self.json({"ok":True}); return
         if self.path == "/api/dm/login":
