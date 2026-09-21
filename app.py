@@ -23,10 +23,13 @@ STATIC = ROOT / "static"
 KINDS = {"player", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name"}
 SESSIONS = {}
 DM_SESSIONS = set()
+DISPLAY_SESSIONS = set()
 PORT = int(os.environ.get("PORT", "8765"))
 PUBLIC_URL = os.environ.get("PUBLIC_URL", "").rstrip("/")
 DM_USERNAME = os.environ.get("DM_USERNAME", "dm").lower()
 DM_PASSWORD = os.environ.get("DM_PASSWORD", "")
+DISPLAY_USERNAME = os.environ.get("DISPLAY_USERNAME", "dashboard").lower()
+DISPLAY_PASSWORD = os.environ.get("DISPLAY_PASSWORD", DM_PASSWORD)
 
 
 def local_network_ip():
@@ -55,6 +58,10 @@ def db():
         password_hash TEXT NOT NULL, salt TEXT NOT NULL,
         must_change INTEGER DEFAULT 1,
         FOREIGN KEY(player_id) REFERENCES entries(id) ON DELETE CASCADE)""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS display_state (
+        id INTEGER PRIMARY KEY CHECK(id=1), payload TEXT NOT NULL DEFAULT '{}',
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP)""")
+    conn.execute("INSERT OR IGNORE INTO display_state(id,payload) VALUES(1,'{}')")
     return conn
 
 
@@ -169,6 +176,18 @@ class Handler(SimpleHTTPRequestHandler):
         token = next((x.split("=", 1)[1] for x in cookies.split("; ") if x.startswith("drak_dm=")), "")
         return token if token in DM_SESSIONS else None
 
+    def display_session(self):
+        cookies = self.headers.get("Cookie", "")
+        token = next((x.split("=", 1)[1] for x in cookies.split("; ") if x.startswith("fizzle_display=")), "")
+        return token if token in DISPLAY_SESSIONS else None
+
+    def get_display_state(self):
+        with db() as conn: row = conn.execute("SELECT payload FROM display_state WHERE id=1").fetchone()
+        try: state = json.loads(row["payload"] or "{}")
+        except (json.JSONDecodeError, TypeError): state = {}
+        return {"initiative":state.get("initiative", {"combatants":[],"round":1,"currentId":None}),
+                "message":str(state.get("message", "")), "image":str(state.get("image", ""))}
+
     def require_local(self):
         # Localhost is trusted only for the desktop-only deployment. A hosted
         # reverse proxy may itself connect from a local address, so hosted
@@ -200,8 +219,8 @@ class Handler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         host = self.headers.get("Host", "").lower()
         direct_local_host = host == "localhost" or host.startswith("localhost:") or host == "127.0.0.1" or host.startswith("127.0.0.1:")
-        if PUBLIC_URL and direct_local_host and parsed.path in ("/dm", "/dm/", "/dashboard", "/dashboard/"):
-            destination = "/dm" if parsed.path.startswith("/dm") else "/dashboard"
+        if PUBLIC_URL and direct_local_host and parsed.path in ("/dm", "/dm/", "/dashboard", "/dashboard/", "/display", "/display/"):
+            destination = "/dm" if parsed.path.startswith("/dm") else "/display" if parsed.path.startswith("/display") else "/dashboard"
             self.send_response(302)
             self.send_header("Location", f"{PUBLIC_URL}{destination}")
             self.send_header("Cache-Control", "no-store")
@@ -209,6 +228,15 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/dm/me":
             if (not PUBLIC_URL and self.is_local()) or self.dm_session(): self.json({"authenticated":True}); return
             self.json({"authenticated":False}, 401); return
+        if parsed.path == "/api/display/me":
+            if self.display_session(): self.json({"authenticated":True}); return
+            self.json({"authenticated":False}, 401); return
+        if parsed.path == "/api/display/state":
+            if not self.display_session(): self.json({"error":"Display login required"}, 401); return
+            self.json(self.get_display_state()); return
+        if parsed.path == "/api/display/control":
+            if not self.require_local(): return
+            self.json(self.get_display_state()); return
         if parsed.path == "/api/auth/me":
             player_id = self.player_session()
             if not player_id: self.json({"authenticated":False}, 401); return
@@ -259,6 +287,7 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path in ("/portal", "/portal/"): parsed = parsed._replace(path="/portal.html")
         if parsed.path in ("/dashboard", "/dashboard/"): parsed = parsed._replace(path="/index.html")
         if parsed.path in ("/dm", "/dm/"): parsed = parsed._replace(path="/dm-login.html")
+        if parsed.path in ("/display", "/display/"): parsed = parsed._replace(path="/display.html")
         if parsed.path == "/" and (PUBLIC_URL or not self.is_local()): parsed = parsed._replace(path="/portal.html")
         target = STATIC / ("index.html" if parsed.path == "/" else parsed.path.lstrip("/"))
         if not target.is_file(): self.send_error(404); return
@@ -268,6 +297,32 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw)
 
     def do_POST(self):
+        if self.path == "/api/display/login":
+            d = self.body(); username = str(d.get("username", "")).strip().lower(); password = str(d.get("password", ""))
+            if not DISPLAY_PASSWORD: self.json({"error":"Display password is not configured"}, 503); return
+            if not hmac.compare_digest(username, DISPLAY_USERNAME) or not hmac.compare_digest(password, DISPLAY_PASSWORD):
+                self.json({"error":"Incorrect display username or password"}, 401); return
+            token = secrets.token_urlsafe(32); DISPLAY_SESSIONS.add(token); raw = json.dumps({"ok":True}).encode()
+            self.send_response(200); self.send_header("Content-Type", "application/json")
+            secure = "; Secure" if PUBLIC_URL else ""
+            self.send_header("Set-Cookie", f"fizzle_display={token}; HttpOnly; SameSite=Strict; Path=/; Max-Age=604800{secure}")
+            self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw); return
+        if self.path == "/api/display/logout":
+            token = self.display_session()
+            if token: DISPLAY_SESSIONS.discard(token)
+            self.send_response(204); self.send_header("Set-Cookie", "fizzle_display=; Path=/; Max-Age=0"); self.end_headers(); return
+        if self.path == "/api/display/control":
+            if not self.require_local(): return
+            d = self.body(); state = self.get_display_state()
+            if "initiative" in d and isinstance(d["initiative"], dict): state["initiative"] = d["initiative"]
+            if "message" in d: state["message"] = str(d["message"])[:2000]
+            if "image" in d:
+                image = str(d["image"])
+                if image and (not image.startswith("data:image/") or len(image) > 8_000_000):
+                    self.json({"error":"Use an image smaller than 6 MB"}, 413); return
+                state["image"] = image
+            with db() as conn: conn.execute("UPDATE display_state SET payload=?,updated_at=CURRENT_TIMESTAMP WHERE id=1", (json.dumps(state),))
+            self.json({"ok":True}); return
         if self.path == "/api/dm/login":
             d = self.body(); username = str(d.get("username", "")).strip().lower(); password = str(d.get("password", ""))
             if not DM_PASSWORD: self.json({"error":"DM_PASSWORD is not configured on the server"}, 503); return

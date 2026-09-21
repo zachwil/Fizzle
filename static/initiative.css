@@ -3,3 +3,4 @@
 @media(max-width:850px){.initiative-layout{grid-template-columns:1fr}.combatant{grid-template-columns:38px minmax(0,1fr) 65px 31px}.initiative-board-head{flex-direction:column}.initiative-actions{width:100%}.initiative-actions button{flex:1}}
 .combatant{grid-template-columns:46px minmax(0,1fr) 85px 34px}
 @media(max-width:850px){.combatant{grid-template-columns:38px minmax(0,1fr) 65px 31px}}
+.display-broadcast{margin-top:25px;padding-top:5px;border-top:3px double #655071}.display-broadcast label{display:block;margin:12px 0;color:var(--muted);font-size:12px}.display-broadcast textarea,.display-broadcast input{margin-top:5px}.display-broadcast button{width:100%;margin:4px 0;padding:9px;background:transparent;border:1px solid #80618d;color:var(--ink);cursor:pointer}.display-broadcast .broadcast-clear{border-color:#654842;color:#bc8d84}.display-broadcast p{min-height:18px;margin:8px 0 0;color:var(--acid);font-size:12px}
