@@ -187,7 +187,8 @@ class Handler(SimpleHTTPRequestHandler):
         except (json.JSONDecodeError, TypeError): state = {}
         return {"initiative":state.get("initiative", {"combatants":[],"round":1,"currentId":None}),
                 "message":str(state.get("message", "")), "image":str(state.get("image", "")),
-                "focus":state.get("focus", "standard") if state.get("focus") in ("standard", "message", "image") else "standard"}
+                "focus":state.get("focus", "standard") if state.get("focus") in ("standard", "message", "image") else "standard",
+                "theme":state.get("theme", "eldritch") if state.get("theme") in ("eldritch", "royal", "dragonfire", "frost", "wilds") else "eldritch"}
 
     def require_local(self):
         # Localhost is trusted only for the desktop-only deployment. A hosted
@@ -214,7 +215,7 @@ class Handler(SimpleHTTPRequestHandler):
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
         safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"]} for x in letters]
-        return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"])}
+        return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -229,6 +230,8 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/dm/me":
             if (not PUBLIC_URL and self.is_local()) or self.dm_session(): self.json({"authenticated":True}); return
             self.json({"authenticated":False}, 401); return
+        if parsed.path == "/api/theme":
+            self.json({"theme":self.get_display_state()["theme"]}); return
         if parsed.path == "/api/display/me":
             if self.display_session(): self.json({"authenticated":True}); return
             self.json({"authenticated":False}, 401); return
@@ -311,6 +314,14 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw)
 
     def do_POST(self):
+        if self.path == "/api/theme":
+            if not self.require_local(): return
+            theme = str(self.body().get("theme", ""))
+            if theme not in ("eldritch", "royal", "dragonfire", "frost", "wilds"):
+                self.json({"error":"Unknown theme"}, 400); return
+            state = self.get_display_state(); state["theme"] = theme
+            with db() as conn: conn.execute("UPDATE display_state SET payload=?,updated_at=CURRENT_TIMESTAMP WHERE id=1", (json.dumps(state),))
+            self.json({"ok":True, "theme":theme}); return
         if self.path == "/api/display/login":
             d = self.body(); username = str(d.get("username", "")).strip().lower(); password = str(d.get("password", ""))
             if not DISPLAY_PASSWORD: self.json({"error":"Display password is not configured"}, 503); return
