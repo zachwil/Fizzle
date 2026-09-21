@@ -186,7 +186,8 @@ class Handler(SimpleHTTPRequestHandler):
         try: state = json.loads(row["payload"] or "{}")
         except (json.JSONDecodeError, TypeError): state = {}
         return {"initiative":state.get("initiative", {"combatants":[],"round":1,"currentId":None}),
-                "message":str(state.get("message", "")), "image":str(state.get("image", ""))}
+                "message":str(state.get("message", "")), "image":str(state.get("image", "")),
+                "focus":state.get("focus", "standard") if state.get("focus") in ("standard", "message", "image") else "standard"}
 
     def require_local(self):
         # Localhost is trusted only for the desktop-only deployment. A hosted
@@ -316,6 +317,7 @@ class Handler(SimpleHTTPRequestHandler):
             d = self.body(); state = self.get_display_state()
             if "initiative" in d and isinstance(d["initiative"], dict): state["initiative"] = d["initiative"]
             if "message" in d: state["message"] = str(d["message"])[:2000]
+            if "focus" in d and d["focus"] in ("standard", "message", "image"): state["focus"] = d["focus"]
             if "image" in d:
                 image = str(d["image"])
                 if image and (not image.startswith("data:image/") or len(image) > 8_000_000):

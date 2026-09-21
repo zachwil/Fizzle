@@ -1,0 +1,12 @@
+.table-display.focus-message,.table-display.focus-image{width:100%;min-height:100vh;padding:0}
+.table-display.focus-message>header,.table-display.focus-image>header{display:none}
+.table-display.focus-message .display-grid,.table-display.focus-image .display-grid{display:block;margin:0;min-height:100vh}
+.table-display.focus-message .display-initiative,.table-display.focus-image .display-initiative{display:none}
+.table-display.focus-message aside,.table-display.focus-image aside{display:block;min-height:100vh}
+.table-display.focus-message .display-image-card{display:none!important}
+.table-display.focus-message .display-message-card{display:grid;place-items:center;min-height:100vh;padding:8vw;border:0;background:radial-gradient(circle at 50% 40%,#322518,#11100d);text-align:center}
+.table-display.focus-message .display-message-card .eyebrow{font-size:14px}
+.table-display.focus-message .display-message-card div{max-width:1200px;font-size:clamp(34px,5.2vw,76px);line-height:1.4}
+.table-display.focus-image .display-message-card{display:none!important}
+.table-display.focus-image .display-image-card{display:grid;place-items:center;min-height:100vh;padding:18px;border:0;background:#050605}
+.table-display.focus-image .display-image-card img{width:100%;height:calc(100vh - 36px);max-height:none;object-fit:contain}
