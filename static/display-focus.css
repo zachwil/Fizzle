@@ -13,5 +13,5 @@
 .table-display.initiative-only .display-grid{grid-template-columns:minmax(0,1fr)}
 .table-display.initiative-only .display-initiative{width:100%}
 .table-display.initiative-only aside{display:none}
-.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 18px}
-@media(max-width:700px){.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:1fr}}
+.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(var(--initiative-rows),auto);grid-auto-flow:column;gap:11px 18px}
+@media(max-width:700px){.table-display.initiative-only.initiative-columns .display-initiative{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row}}
