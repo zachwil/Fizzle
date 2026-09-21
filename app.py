@@ -3,7 +3,7 @@
 
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
-from urllib.parse import urlparse, parse_qs, unquote
+from urllib.parse import urlparse, parse_qs, unquote, quote
 import json
 import hashlib
 import hmac
@@ -278,6 +278,17 @@ class Handler(SimpleHTTPRequestHandler):
                 count = conn.execute("""SELECT count(*) FROM entries WHERE kind='message' AND status='Unread'
                     AND (json_extract(extra,'$.direction')='player_to_dm' OR json_extract(extra,'$.direction') IS NULL)""").fetchone()[0]
             self.json({"unread":count}); return
+        if parsed.path == "/api/library":
+            if not self.require_local(): return
+            library = ROOT / "resources"; files = []
+            if library.is_dir():
+                for path in sorted(library.rglob("*"), key=lambda item: str(item).lower()):
+                    if not path.is_file() or path.is_symlink() or any(part.startswith(".") for part in path.relative_to(library).parts): continue
+                    relative = path.relative_to(library)
+                    files.append({"name":path.stem, "filename":path.name, "folder":str(relative.parent) if relative.parent != Path(".") else "",
+                                  "extension":path.suffix.lower().lstrip("."), "size":path.stat().st_size,
+                                  "url":"/resources/" + quote(str(relative), safe="/")})
+            self.json(files); return
         if parsed.path.startswith("/resources/"):
             if not self.require_local(): return
             target = (ROOT / unquote(parsed.path.lstrip("/"))).resolve()

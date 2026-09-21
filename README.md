@@ -17,7 +17,8 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - d100 Drakkenheim rumour roller
 - Fantasy Name Forge with gender and ancestry options plus a persistent saved-name bank
 - Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic sorting, turn highlighting, and round tracking
-- Direct access to sourcebook PDFs stored in `resources/`
+- Unified Source Library on the Overview and Resources pages
+- Automatic discovery and linking of files and subfolders placed in `resources/`
 
 ### Player portal
 
@@ -146,6 +147,10 @@ All campaign content is stored in `campaign.db` by default. Back up this file to
 Uploaded table-display images are stored inside the SQLite database as data, so large images increase the database size. The upload limit is 6 MB per image.
 
 The local database, `.env`, logs, and sourcebook files are intentionally excluded from Git.
+
+### Adding library files
+
+Copy PDFs, images, documents, or other reference files into the `resources/` directory. Fizzle scans the directory whenever the Overview or Resources page loads, so new files appear automatically without restarting the service. Subfolders are supported and shown on each file card. Hidden files and symbolic links are ignored.
 
 ## Render deployment
 
