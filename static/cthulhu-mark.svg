@@ -1,19 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dwarven beer stein">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dwarven totem head">
   <defs>
-    <linearGradient id="stein-metal" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="dwarf-metal" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#e3ed83"/>
       <stop offset=".48" stop-color="#a9bd42"/>
       <stop offset="1" stop-color="#66752b"/>
     </linearGradient>
   </defs>
-  <path d="M14 18h34l-3 38H17Z" fill="#c7d95a" opacity=".18"/>
-  <path d="M46 24h5c7 0 9 5 8 12-1 8-5 13-12 13h-2" fill="none" stroke="#c7d95a" stroke-width="5" stroke-linecap="round"/>
-  <path d="M48 29h3c3 0 4 2 3 7 0 5-2 8-7 8" fill="none" stroke="#7f9135" stroke-width="2.5"/>
-  <path d="M14 17h34l-3 39H17Z" fill="none" stroke="url(#stein-metal)" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M16 27h31M16 47h30" fill="none" stroke="#879837" stroke-width="3"/>
-  <path d="M14 18c-4-1-5-5-3-8 2-3 6-2 8 0 2-5 8-6 11-2 4-5 11-2 11 3 5-2 9 1 8 7Z" fill="#eee4cf" stroke="#c7d95a" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="m31 31 7 7-7 7-7-7Z" fill="#11130f" stroke="#dce978" stroke-width="2"/>
-  <path d="m31 34 3 4-3 4-3-4Z" fill="#c7d95a"/>
-  <path d="M22 22v30M40 22v30" fill="none" stroke="#dce978" stroke-width="1.5" opacity=".55"/>
-  <path d="M18 57h27" fill="none" stroke="#dce978" stroke-width="4" stroke-linecap="round"/>
+  <path d="M32 3 55 14l-5 28-18 19-18-19-5-28Z" fill="#c7d95a" opacity=".16"/>
+  <path d="M32 3 55 14l-7 8-16-8-16 8-7-8Z" fill="url(#dwarf-metal)" stroke="#dce978" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="m10 16 12 4-7 9-8-5Zm44 0-12 4 7 9 8-5Z" fill="#8fa037" stroke="#c7d95a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M17 23h30l3 12-8 6H22l-8-6Z" fill="#aabd43" stroke="#dce978" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="m18 27 11 2-6 6-7-2Zm28 0-11 2 6 6 7-2Z" fill="#11130f" stroke="#dce978" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m32 22 7 18-7 6-7-6Z" fill="url(#dwarf-metal)" stroke="#68772c" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m18 39 8 3 6 5 6-5 8-3-3 13-6-3-5 12-5-12-6 3Z" fill="url(#dwarf-metal)" stroke="#c7d95a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="m21 43 6 6-2 7m18-13-6 6 2 7M32 47v12" fill="none" stroke="#66752b" stroke-width="2.5" stroke-linecap="square"/>
+  <path d="M27 40h10l-5 4Z" fill="#11130f"/>
 </svg>
