@@ -87,4 +87,19 @@
 .npc-empty { padding:28px; border:1px dashed var(--line); color:var(--muted)!important; text-align:center; font-style:italic; }
 .npc-dashboard>footer { display:flex; justify-content:space-between; gap:15px; padding-top:15px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
 .npc-dashboard>footer b { color:var(--gold); font-weight:normal; }
-@media(max-width:600px) { .viewer-hero,.npc-hero{grid-template-columns:auto 1fr}.viewer-status{grid-column:1/-1}.viewer-grid{grid-template-columns:1fr}.player-dashboard,.message-dashboard,.npc-dashboard{padding:20px}.npc-record{columns:1}.npc-dashboard>footer{flex-direction:column}.viewer-letter-head{align-items:start}.message-dashboard>footer{flex-direction:column}.viewer-actions{padding:12px 16px}.viewer-compose{padding:18px}.viewer-compose-actions{align-items:stretch;flex-direction:column}.viewer-compose-actions button{width:100%}.thread-letter,.thread-letter.outgoing,.thread-letter.incoming{margin:10px 0;padding-left:62px}.thread-title{grid-template-columns:1fr}.thread-title>span{margin-top:5px} }
+.record-dashboard { padding:30px; background:radial-gradient(circle at 92% 0,#30392755,transparent 35%),linear-gradient(145deg,#1d201a,#131510); }
+.record-hero { display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding-bottom:22px; border-bottom:3px double #53603d; }
+.record-hero h2 { margin:2px 0 5px; font-size:30px; font-variant:small-caps; }
+.record-hero p:last-child { margin:0; color:var(--muted); font-style:italic; }
+.record-crest { width:62px; height:62px; display:grid; place-items:center; border:1px solid #58623b; color:var(--acid); font-size:29px; background:#10120f; box-shadow:inset 0 0 20px #000; }
+.record-pinned { align-self:start; padding:5px 9px; border:1px solid #786a3e; color:var(--gold); font:10px Arial,sans-serif; letter-spacing:1px; }
+.record-meta { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 10px; }
+.record-meta span { padding:6px 10px; border:1px solid #4f563c; background:#11130f; color:#c4cbaa; font-size:12px; }
+.record-highlight { margin:18px 0; padding:17px; border:1px solid #59643b; background:#171b13; }
+.record-highlight p:last-child { margin:0; color:#d0c9b7; line-height:1.65; }
+.record-body { min-height:120px; padding:10px 4px 22px; }
+.record-body h3 { margin:20px 0 6px; color:var(--acid); font:11px Arial,sans-serif; letter-spacing:1.6px; }
+.record-body p { margin:0 0 15px; color:#cbc2ae; line-height:1.72; }
+.record-empty { padding:32px; border:1px dashed var(--line); color:var(--muted)!important; text-align:center; font-style:italic; }
+.record-dashboard>footer { padding-top:15px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
+@media(max-width:600px) { .viewer-hero,.npc-hero,.record-hero{grid-template-columns:auto 1fr}.viewer-status,.record-pinned{grid-column:1/-1}.viewer-grid{grid-template-columns:1fr}.player-dashboard,.message-dashboard,.npc-dashboard,.record-dashboard{padding:20px}.npc-record{columns:1}.npc-dashboard>footer{flex-direction:column}.viewer-letter-head{align-items:start}.message-dashboard>footer{flex-direction:column}.viewer-actions{padding:12px 16px}.viewer-compose{padding:18px}.viewer-compose-actions{align-items:stretch;flex-direction:column}.viewer-compose-actions button{width:100%}.thread-letter,.thread-letter.outgoing,.thread-letter.incoming{margin:10px 0;padding-left:62px}.thread-title{grid-template-columns:1fr}.thread-title>span{margin-top:5px} }
