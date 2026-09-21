@@ -295,6 +295,8 @@ class Handler(SimpleHTTPRequestHandler):
             if ROOT / "resources" not in target.parents or not target.is_file(): self.send_error(404); return
             raw = target.read_bytes(); self.send_response(200)
             self.send_header("Content-Type", mimetypes.guess_type(target.name)[0] or "application/octet-stream")
+            self.send_header("Content-Disposition", f"inline; filename*=UTF-8''{quote(target.name)}")
+            self.send_header("Cache-Control", "private, max-age=3600")
             self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw); return
         if parsed.path in ("/portal", "/portal/"): parsed = parsed._replace(path="/portal.html")
         if parsed.path in ("/dashboard", "/dashboard/"): parsed = parsed._replace(path="/index.html")
