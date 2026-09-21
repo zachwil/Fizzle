@@ -94,7 +94,7 @@ The player must choose a new password after logging in with a reset temporary pa
 
 1. Open **Initiative Tracker** in the DM sidebar.
 2. Add active player characters and any number of saved or custom NPCs. NPCs roll automatically using the supplied initiative modifier.
-3. Enter player initiative values, then select **Sort** or **Start**.
+3. Optionally enter each player's rolled initiative before adding them, or enter it afterward in the order. Then select **Sort** or **Start**.
 4. Use **Next Turn** to advance the highlighted combatant and round.
 5. Open **Table Display** in the DM sidebar to send a message, upload an image, or select a presentation focus mode.
 6. On the iPad, open `/display` and log in with the display account.
