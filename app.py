@@ -20,7 +20,7 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", ROOT))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB = DATA_DIR / "campaign.db"
 STATIC = ROOT / "static"
-KINDS = {"player", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message"}
+KINDS = {"player", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name"}
 SESSIONS = {}
 DM_SESSIONS = set()
 PORT = int(os.environ.get("PORT", "8765"))
