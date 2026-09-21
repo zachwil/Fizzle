@@ -1,18 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dwarven totem head">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Dwarven brass totem head">
   <defs>
-    <linearGradient id="dwarf-metal" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e3ed83"/>
-      <stop offset=".48" stop-color="#a9bd42"/>
-      <stop offset="1" stop-color="#66752b"/>
+    <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0d887"/>
+      <stop offset=".48" stop-color="#c49a43"/>
+      <stop offset="1" stop-color="#765326"/>
+    </linearGradient>
+    <linearGradient id="beard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8b35b"/>
+      <stop offset="1" stop-color="#8b612b"/>
     </linearGradient>
   </defs>
-  <path d="M32 3 55 14l-5 28-18 19-18-19-5-28Z" fill="#c7d95a" opacity=".16"/>
-  <path d="M32 3 55 14l-7 8-16-8-16 8-7-8Z" fill="url(#dwarf-metal)" stroke="#dce978" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="m10 16 12 4-7 9-8-5Zm44 0-12 4 7 9 8-5Z" fill="#8fa037" stroke="#c7d95a" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M17 23h30l3 12-8 6H22l-8-6Z" fill="#aabd43" stroke="#dce978" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="m18 27 11 2-6 6-7-2Zm28 0-11 2 6 6 7-2Z" fill="#11130f" stroke="#dce978" stroke-width="2" stroke-linejoin="round"/>
-  <path d="m32 22 7 18-7 6-7-6Z" fill="url(#dwarf-metal)" stroke="#68772c" stroke-width="2" stroke-linejoin="round"/>
-  <path d="m18 39 8 3 6 5 6-5 8-3-3 13-6-3-5 12-5-12-6 3Z" fill="url(#dwarf-metal)" stroke="#c7d95a" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="m21 43 6 6-2 7m18-13-6 6 2 7M32 47v12" fill="none" stroke="#66752b" stroke-width="2.5" stroke-linecap="square"/>
-  <path d="M27 40h10l-5 4Z" fill="#11130f"/>
+  <path d="M10 31a22 22 0 0 1 44 0v17H10Z" fill="#6d4b23" stroke="#d5ad55" stroke-width="3"/>
+  <g fill="#efd17b"><circle cx="13" cy="27" r="1.5"/><circle cx="51" cy="27" r="1.5"/><circle cx="12" cy="36" r="1.5"/><circle cx="52" cy="36" r="1.5"/></g>
+  <path d="M17 22 19 8l6-3 2 15m0-1L29 4h6l2 15m0 1L39 5l6 3 2 14Z" fill="url(#brass)" stroke="#8b622b" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M16 20 32 16l16 4-3 8-13-4-13 4Z" fill="url(#brass)" stroke="#ebcf78" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="32" cy="20" r="3" fill="#e4bd62" stroke="#8b622b" stroke-width="1.5"/>
+  <path d="m18 27 11 1-5 5-8-2Zm28 0-11 1 5 5 8-2Z" fill="#17120c" stroke="#d9b45c" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="m32 23 6 14-6 5-6-5Z" fill="url(#brass)" stroke="#765326" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 41c-5-7-12-7-18-3 1 6 5 9 12 8l6-3 6 3c7 1 11-2 12-8-6-4-13-4-18 3Z" fill="url(#brass)" stroke="#765326" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M15 42c2 9 6 15 12 19l5-15 5 15c6-4 10-10 12-19-5 4-11 4-17 1-6 3-12 3-17-1Z" fill="url(#beard)" stroke="#d5ad55" stroke-width="2" stroke-linejoin="round"/>
+  <path d="m21 46 6 15m16-15-6 15M32 46v15" fill="none" stroke="#68461f" stroke-width="2"/>
+  <g fill="#efd17b"><circle cx="18" cy="44" r="1.5"/><circle cx="46" cy="44" r="1.5"/><circle cx="32" cy="58" r="1.5"/></g>
 </svg>
