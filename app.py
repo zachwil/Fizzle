@@ -214,9 +214,8 @@ class Handler(SimpleHTTPRequestHandler):
                    "passive_perception", "speed", "initiative", "spell_save_dc", "background", "relationships", "goals")
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
-        safe_letters = [{"id":x["id"], "name":x["name"], "body":x["body"], "created_at":x["created_at"],
-                         "message_type":x.get("extra", {}).get("message_type", "letter"),
-                         "roll":x.get("extra", {}).get("roll", "")} for x in letters]
+        safe_letters = [{"id":x["id"], "name":"An Anonymous Whisper" if x.get("extra", {}).get("message_type") == "rumor" else x["name"], "body":x["body"], "created_at":x["created_at"],
+                         "message_type":x.get("extra", {}).get("message_type", "letter")} for x in letters]
         return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
 
     def do_GET(self):
