@@ -12,7 +12,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Read-only profile views for NPCs, locations, factions, quests, notes, tasks, sessions, rumours, resources, and maps
 - Player account creation, archiving, custom passwords, and temporary-password resets
 - Private two-way correspondence with unread-message notifications and a per-player letter history
-- Session calendar and session-preparation task list
+- Session calendar with interactive per-session agenda checklists, plus a session-preparation task list
 - Favorites, statuses, tags, and structured campaign notes
 - d100 Drakkenheim rumour roller
 - Private rumor delivery to individual players with per-character delivery history
