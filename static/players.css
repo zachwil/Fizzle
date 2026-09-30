@@ -51,7 +51,7 @@
 .viewer-compose-actions button:disabled { cursor:wait; opacity:.55; }
 .correspondence-thread { margin-top:26px; padding-top:22px; border-top:3px double #685a3c; }
 .rumor-ledger { margin-top:24px; padding:22px; border:1px solid #5d6339; background:linear-gradient(145deg,#202419,#141611); }
-.received-rumor { display:grid; grid-template-columns:48px 1fr; gap:14px; align-items:start; padding:14px 0; border-top:1px solid var(--line); }
+.received-rumor { display:grid; grid-template-columns:48px 1fr auto; gap:14px; align-items:start; padding:14px 0; border-top:1px solid var(--line); }
 .received-rumor:first-of-type { border-top:0; }
 .rumor-roll { display:grid; place-items:center; width:42px; height:42px; border:1px solid var(--acid); color:var(--acid); font-size:16px; }
 .received-rumor small { color:var(--muted); font:9px Arial,sans-serif; letter-spacing:1px; }
@@ -61,6 +61,10 @@
 .thread-title h3 { margin:0; font-size:22px; font-weight:normal; }
 .thread-title>span { color:var(--muted); font:10px Arial; letter-spacing:1px; text-transform:uppercase; }
 .thread-letter { position:relative; margin:12px 0; padding:18px 18px 18px 68px; border:1px solid #705d3b; background:linear-gradient(145deg,#292117,#181510); box-shadow:inset 0 0 24px #0006; }
+.message-remove { padding:4px 7px; border:1px solid transparent; background:transparent; color:var(--muted); font:9px Arial,sans-serif; letter-spacing:.7px; text-transform:uppercase; cursor:pointer; }
+.thread-letter>.message-remove { position:absolute; top:12px; right:12px; }
+.message-remove:hover { border-color:var(--red); color:#d88379; }
+.thread-letter .thread-head { padding-right:50px; }
 .thread-letter.outgoing { margin-left:9%; border-color:#685078; background:linear-gradient(145deg,#251f2b,#17141a); }
 .thread-letter.incoming { margin-right:9%; }
 .thread-seal { position:absolute; left:16px; top:17px; width:37px; height:37px; display:grid; place-items:center; border-radius:50%; background:#733b34; border:2px solid #9e594b; color:#edd2a6; font:bold 10px Georgia; }
