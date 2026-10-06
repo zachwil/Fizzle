@@ -17,7 +17,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - d100 Drakkenheim rumour roller
 - Private rumor delivery to individual players with per-character delivery history
 - Fantasy Name Forge with gender and ancestry options plus a persistent saved-name bank
-- Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic NPC initiative rolls from modifiers, manual sorting, turn highlighting, and round tracking
+- Persistent initiative tracker with active-player selection, saved or custom NPCs, automatic NPC initiative rolls from modifiers, manual sorting, turn highlighting, round tracking, and global combat controls available throughout the DM dashboard
 - Searchable Fifth Edition Dungeon Master Screen with selectable 2014 and 2024 rules for combat, conditions, exploration, spellcasting, rest, and difficulty references
 - Unified Source Library on the Overview and Resources pages
 - Automatic discovery and linking of files and subfolders placed in `resources/`
@@ -45,6 +45,12 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Automatic updates without refreshing the iPad
 - No access to private campaign records or DM tools
 
+### Public demo
+
+- Read-only interactive tour at `/demo` with entirely fictional sample data
+- Demonstrates dossiers, NPC records, correspondence, session preparation, initiative, global combat controls, and table-display layouts
+- Makes no API calls and has no access to the live campaign database
+
 ## Requirements
 
 - Python 3
@@ -67,6 +73,7 @@ The main routes are:
 | DM dashboard | `/dashboard` |
 | Player portal | `/portal` |
 | iPad/table display | `/display` |
+| Public interactive demo | `/demo` |
 
 ## Configuration
 

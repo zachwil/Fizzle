@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="eldritch">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore a public, read-only demonstration of Fizzle, a tabletop campaign dashboard.">
+  <title>Fizzle — Interactive Demo</title>
+  <link rel="stylesheet" href="/demo.css">
+</head>
+<body>
+  <aside>
+    <a class="demo-brand" href="/demo" aria-label="Fizzle demo home"><img src="/cthulhu-mark.svg" alt=""><span><b>FIZZLE</b><small>Interactive Demo</small></span></a>
+    <div class="demo-stamp">PUBLIC · READ ONLY</div>
+    <nav id="demo-nav" aria-label="Demo sections"></nav>
+    <div class="demo-side-note"><b>Nothing here is real.</b><span>This self-contained tour uses fictional data and cannot view or change the live campaign.</span></div>
+  </aside>
+  <main>
+    <header>
+      <div><p class="eyebrow" id="demo-eyebrow">THE INNER SANCTUM</p><h1 id="demo-title">Campaign Overview</h1></div>
+      <div class="demo-header-actions"><span>Try the controls</span><a href="/dm">DM Login</a></div>
+    </header>
+    <section id="demo-view"></section>
+  </main>
+  <section id="demo-combat-dock" class="demo-combat-dock" hidden aria-live="polite"></section>
+  <dialog id="demo-modal"><div id="demo-modal-content"></div><button onclick="closeDemoModal()">Close</button></dialog>
+  <script src="/demo.js"></script>
+</body>
+</html>
