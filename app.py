@@ -304,6 +304,7 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header("Content-Length", len(raw)); self.end_headers(); self.wfile.write(raw); return
         if parsed.path in ("/portal", "/portal/"): parsed = parsed._replace(path="/portal.html")
         if parsed.path in ("/demo", "/demo/"): parsed = parsed._replace(path="/demo.html")
+        if parsed.path in ("/oracle", "/oracle/"): parsed = parsed._replace(path="/oracle.html")
         if parsed.path in ("/dashboard", "/dashboard/"): parsed = parsed._replace(path="/index.html")
         if parsed.path in ("/dm", "/dm/"): parsed = parsed._replace(path="/dm-login.html")
         if parsed.path in ("/display", "/display/"): parsed = parsed._replace(path="/display.html")

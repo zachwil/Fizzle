@@ -51,6 +51,16 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Demonstrates dossiers, NPC records, correspondence, session preparation, initiative, global combat controls, and table-display layouts
 - Makes no API calls and has no access to the live campaign database
 
+### Solo RPG oracle
+
+- Public, account-free oracle workspace at `/oracle`
+- Adjustable Story Pressure and probability-weighted fate questions with exceptional results and twists
+- Expected, altered, and interrupted scene checks; NPC reactions; and complications
+- Action/subject, descriptor/focus, and saved-story-element inspiration generators
+- Standard dice notation, quick polyhedral dice, and advantage/disadvantage rolls
+- Locally saved story threads, NPCs, and oracle journal with Markdown export
+- Stores data only in the visitor's browser and never reads or writes the campaign database
+
 ## Requirements
 
 - Python 3
@@ -74,6 +84,7 @@ The main routes are:
 | Player portal | `/portal` |
 | iPad/table display | `/display` |
 | Public interactive demo | `/demo` |
+| Public solo RPG oracle | `/oracle` |
 
 ## Configuration
 
