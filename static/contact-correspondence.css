@@ -6,6 +6,83 @@
   font-size: 9px;
 }
 
+.wax-seal,
+.viewer-wax,
+.thread-seal,
+.directory-seal {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-width: 2px;
+  border-style: solid;
+  color: #f3dfad;
+  text-shadow: 0 1px 2px #000b;
+  box-shadow: inset 0 0 0 2px #ffffff12, inset 0 0 12px #0008, 0 3px 8px #0008;
+}
+
+.wax-seal::after,
+.viewer-wax::after,
+.thread-seal::after,
+.directory-seal::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border: 1px dotted #ffe8aa55;
+  border-radius: 50%;
+}
+
+.seal-academy { background: radial-gradient(circle at 35% 28%, #9270ba, #4d2e69 68%); border-color: #b894d3; color: #f1cf70; }
+.seal-falling-fire { background: radial-gradient(circle at 35% 28%, #d17b42, #7d2825 70%); border-color: #e49b53; color: #ffe094; }
+.seal-lanterns { background: radial-gradient(circle at 35% 28%, #54754c, #203d2b 70%); border-color: #769270; color: #e1d49b; }
+.seal-silver-order { background: radial-gradient(circle at 35% 28%, #d7d2bd, #696a66 72%); border-color: #ece4c5; color: #4b351a; text-shadow: 0 1px #fff7; }
+.seal-queens-men { background: radial-gradient(circle at 35% 28%, #a9484c, #4d1726 70%); border-color: #ce6870; color: #f4d7c1; }
+.seal-dm { background: radial-gradient(circle at 35% 28%, #9a4f45, #54251f 70%); border-color: #bc7060; }
+.seal-player { background: radial-gradient(circle at 35% 28%, #54738c, #293f5b 70%); border-color: #7896ad; color: #e1e8e9; }
+.seal-rumor { background: radial-gradient(circle at 35% 28%, #4f817c, #244947 70%); border-color: #70a5a0; color: #dcebe4; }
+.seal-enemies { background: radial-gradient(circle at 35% 28%, #8c4841, #3e1e1c 70%); border-color: #ad6259; color: #f0c08d; }
+.seal-other { background: radial-gradient(circle at 35% 28%, #746b59, #38342d 70%); border-color: #938873; color: #e8ddc1; }
+
+.npc-directory {
+  display: grid;
+  gap: 34px;
+}
+
+.npc-group {
+  min-width: 0;
+}
+
+.npc-group-head {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 3px double var(--line);
+}
+
+.npc-group-head h2,
+.npc-group-head p {
+  margin: 0;
+}
+
+.npc-group-head > span:last-child {
+  color: var(--muted);
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.directory-seal {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
 .letter.player-sent {
   margin-left: 12%;
   background: linear-gradient(145deg, #aaa27e, #786f54);
@@ -20,5 +97,13 @@
 @media (max-width: 760px) {
   .letter.player-sent {
     margin-left: 0;
+  }
+
+  .npc-group-head {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .npc-group-head > span:last-child {
+    grid-column: 2;
   }
 }

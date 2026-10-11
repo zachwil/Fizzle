@@ -326,7 +326,8 @@ class Handler(SimpleHTTPRequestHandler):
                          "message_type":x.get("extra", {}).get("message_type", "letter"),
                          "direction":x.get("extra", {}).get("direction", "dm_to_player"),
                          "contact_id":x.get("extra", {}).get("contact_id"),
-                         "contact_name":x.get("extra", {}).get("contact_name", "")} for x in letters]
+                         "contact_name":x.get("extra", {}).get("contact_name", ""),
+                         "contact_faction":x.get("extra", {}).get("contact_faction", "")} for x in letters]
         safe_contacts = [{"id":x["id"], "name":x["name"], "faction":x.get("extra", {}).get("faction", "")}
                          for x in contacts]
         return {"player":player, "sessions":sessions, "letters":safe_letters, "contacts":safe_contacts,
@@ -531,7 +532,7 @@ class Handler(SimpleHTTPRequestHandler):
                 if not player: self.json({"error":"Player not found"}, 404); return
                 contact = None
                 if message_type == "letter" and contact_id:
-                    contact = conn.execute("""SELECT name FROM entries WHERE id=? AND kind='npc'
+                    contact = conn.execute("""SELECT name,json_extract(extra,'$.faction') faction FROM entries WHERE id=? AND kind='npc'
                         AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1""", (contact_id,)).fetchone()
                     if not contact: self.json({"error":"Choose an available contact"}, 400); return
                 label = "Personal Quest Update" if message_type == "quest" else "Letter"
@@ -540,7 +541,8 @@ class Handler(SimpleHTTPRequestHandler):
                 contact_id = contact_id if contact else 0
                 extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type,
                                     "direction":"player_to_dm", "contact_id":contact_id or None,
-                                    "contact_name":contact["name"] if contact else ""})
+                                    "contact_name":contact["name"] if contact else "",
+                                    "contact_faction":contact["faction"] if contact else ""})
                 cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
                     VALUES('message',?,?,?,?,?,?)""",
                     (f"{label} — {player['name']} to {recipient}: {title}", f"Private dispatch from {player['name']} to {recipient}", message,
@@ -564,14 +566,15 @@ class Handler(SimpleHTTPRequestHandler):
                 if player_extra.get("archived"): self.json({"error":"Archived players cannot receive letters"}, 409); return
                 contact = None
                 if contact_id:
-                    contact = conn.execute("""SELECT name FROM entries WHERE id=? AND kind='npc'
+                    contact = conn.execute("""SELECT name,json_extract(extra,'$.faction') faction FROM entries WHERE id=? AND kind='npc'
                         AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1""", (contact_id,)).fetchone()
                     if not contact: self.json({"error":"Choose an available contact"}, 400); return
                 sender = contact["name"] if contact else "Dungeon Master"
                 title = subject or f"A Letter from {sender}"
                 extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":"letter",
                                     "direction":"dm_to_player", "contact_id":contact_id or None,
-                                    "contact_name":contact["name"] if contact else ""})
+                                    "contact_name":contact["name"] if contact else "",
+                                    "contact_faction":contact["faction"] if contact else ""})
                 cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
                     VALUES('message',?,?,?,?,?,?)""",
                     (f"Letter from {sender} to {player['name']}: {title}", f"Private letter from {sender} to {player['name']}", message,
