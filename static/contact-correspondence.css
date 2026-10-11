@@ -121,9 +121,76 @@
   border-color: #7896ad;
 }
 
+.letter-reply-toggle {
+  position: relative;
+  display: block;
+  margin: 12px 0 0 auto;
+  padding: 6px 11px;
+  border: 1px solid #65482d;
+  background: #ead6a4aa;
+  color: #382619;
+  font-size: 11px;
+}
+
+.letter-reply {
+  position: relative;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid #6c5034;
+}
+
+.letter-reply label {
+  margin: 0;
+  color: #4f3925;
+  font-weight: bold;
+}
+
+.letter-reply textarea {
+  min-height: 90px;
+  margin-top: 5px;
+  border-color: #725638;
+  background: #efe0ba;
+  color: #2d2117;
+  box-shadow: inset 0 0 15px #7b573522;
+}
+
+.letter-reply > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.letter-reply .reply-status {
+  margin-right: auto;
+  color: #5e3f28;
+  font-size: 11px;
+}
+
+.letter-reply button {
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+.letter-reply .reply-cancel {
+  border-color: #745b3d;
+  background: transparent;
+  color: #493420;
+}
+
 @media (max-width: 760px) {
   .letter.player-sent {
     margin-left: 0;
+  }
+
+  .letter-reply > div {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .letter-reply button {
+    width: 100%;
   }
 
   .npc-group-head {
