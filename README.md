@@ -58,6 +58,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Expected, altered, and interrupted scene checks; NPC reactions; and complications
 - Action/subject and descriptor/focus inspiration generators
 - Standard dice notation, quick polyhedral dice, and advantage/disadvantage rolls
+- Journal-ready dungeon room generator with layout, exits, features, atmosphere, threats, discoveries, and one-click copy
 - Intentionally ephemeral: no journal, account, local storage, or campaign tracking
 - Never reads or writes the campaign database
 
