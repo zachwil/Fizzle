@@ -10,7 +10,6 @@
 .viewer-wax,
 .thread-seal,
 .directory-seal {
-  position: relative;
   overflow: hidden;
   isolation: isolate;
   border-width: 2px;
@@ -18,6 +17,26 @@
   color: #f3dfad;
   text-shadow: 0 1px 2px #000b;
   box-shadow: inset 0 0 0 2px #ffffff12, inset 0 0 12px #0008, 0 3px 8px #0008;
+}
+
+.viewer-wax,
+.directory-seal {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.thread-letter > .thread-seal {
+  position: absolute;
+  top: 17px;
+  left: 16px;
+  margin: 0;
+}
+
+.letter > .wax-seal {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  margin: 0;
 }
 
 .wax-seal::after,
@@ -42,6 +61,14 @@
 .seal-rumor { background: radial-gradient(circle at 35% 28%, #4f817c, #244947 70%); border-color: #70a5a0; color: #dcebe4; }
 .seal-enemies { background: radial-gradient(circle at 35% 28%, #8c4841, #3e1e1c 70%); border-color: #ad6259; color: #f0c08d; }
 .seal-other { background: radial-gradient(circle at 35% 28%, #746b59, #38342d 70%); border-color: #938873; color: #e8ddc1; }
+
+.thread-letter .thread-seal.seal-academy { background: radial-gradient(circle at 35% 28%, #9270ba, #4d2e69 68%); border-color: #b894d3; }
+.thread-letter .thread-seal.seal-falling-fire { background: radial-gradient(circle at 35% 28%, #d17b42, #7d2825 70%); border-color: #e49b53; }
+.thread-letter .thread-seal.seal-lanterns { background: radial-gradient(circle at 35% 28%, #54754c, #203d2b 70%); border-color: #769270; }
+.thread-letter .thread-seal.seal-silver-order { background: radial-gradient(circle at 35% 28%, #d7d2bd, #696a66 72%); border-color: #ece4c5; }
+.thread-letter .thread-seal.seal-queens-men { background: radial-gradient(circle at 35% 28%, #a9484c, #4d1726 70%); border-color: #ce6870; }
+.thread-letter .thread-seal.seal-dm { background: radial-gradient(circle at 35% 28%, #9a4f45, #54251f 70%); border-color: #bc7060; }
+.thread-letter .thread-seal.seal-player { background: radial-gradient(circle at 35% 28%, #54738c, #293f5b 70%); border-color: #7896ad; }
 
 .npc-directory {
   display: grid;
@@ -90,8 +117,8 @@
 }
 
 .letter.player-sent .wax-seal {
-  background: #493355;
-  border-color: #745487;
+  background: radial-gradient(circle at 35% 28%, #54738c, #293f5b 70%);
+  border-color: #7896ad;
 }
 
 @media (max-width: 760px) {
@@ -105,5 +132,10 @@
 
   .npc-group-head > span:last-child {
     grid-column: 2;
+  }
+
+  .thread-letter > .thread-seal {
+    top: 15px;
+    left: 13px;
   }
 }
