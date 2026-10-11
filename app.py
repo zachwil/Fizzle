@@ -87,6 +87,94 @@ def row_dict(row):
     return item
 
 
+FACTION_CONTACTS = (
+        ("River", "Faction contact — The Amethyst Academy", """ROLE
+Lieutenant and field representative for the Amethyst Academy in Drakkenheim. She works alongside Archwizard Eldrick Runeweaver and frequently hires capable adventurers for Academy business.
+
+APPEARANCE
+A short tiefling woman in her late twenties with spotted brown skin, sharp features, flowing blue hair, and two dark horns swept backward. She wears a practical purple high-collared jacket, five rings, and several belted pouches.
+
+PERSONALITY
+Precise, pragmatic, and professional, with a wry sardonic humour reserved for people she considers competent. She values results and has little patience for excuses or foolishness.
+
+RELATIONSHIPS & RESOURCES
+Eldrick Runeweaver is her mentor and close friend. River is usually accompanied by an imp familiar and shield guardian, and maintains ready access to sending magic, teleportation, scrolls, and potions.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Amethyst Academy, contact, lieutenant, tiefling, mage", "The Amethyst Academy"),
+        ("Nathaniel Flint", "Faction contact — Followers of the Falling Fire", """ROLE
+Principal lieutenant and enthusiastic missionary for the Followers of the Falling Fire. He guides pilgrims and introduces outsiders to Lucretia Mathias’s teachings.
+
+APPEARANCE
+An animated human man in his early thirties with curly brown hair, mutton chops, a bushy moustache, and a flushed face. He wears pilgrim robes and a Falling Fire tabard; a scarfed hood conceals the delerium shard in his chest.
+
+PERSONALITY
+Jovial, eager, and utterly convinced of Lucretia’s prophecies. He sees even terrible events as part of a divine plan.
+
+DM POSSIBILITY
+At the DM’s option, Nathaniel may be Leonard von Kessel without any memory of his former identity, or have another hidden connection to the royal family.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Falling Fire, contact, lieutenant, chaplain, pilgrim", "Followers of the Falling Fire"),
+        ("Captain Ansom Lang", "Faction contact — Hooded Lanterns", """ROLE
+Captain of the Hooded Lanterns’ Vanguard Company and one of Lord Commander Elias Drexel’s principal field officers.
+
+APPEARANCE
+An athletic young human man with long black hair, a neat short beard, angular jaw, and rugged features. His green cloak and light chain armour display a captain’s insignia.
+
+PERSONALITY
+Determined, suspicious, and slow to trust adventurers. He hopes hard work can restore Drakkenheim, but habitually doubts outsiders.
+
+RELATIONSHIPS
+Petra Lang is his adopted sister and closest bond. The two were raised by Elias Drexel and have protected one another since childhood.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Hooded Lanterns, contact, captain, ranger, vanguard", "Hooded Lanterns"),
+        ("Lieutenant Petra Lang", "Faction contact — Hooded Lanterns", """ROLE
+Hooded Lanterns lieutenant, urban ranger, and trusted field officer under Lord Commander Elias Drexel.
+
+APPEARANCE
+A fit and nimble young human woman with long black hair, a narrow pointed chin, and bold features. She wears the Lanterns’ green cloak and light chain armour with a lieutenant’s insignia.
+
+PERSONALITY
+Hopeful, perceptive, and willing to trust people who risk themselves for the city. Her faith in apparent allies can leave her exposed.
+
+RELATIONSHIPS
+Ansom Lang is her adopted brother. Elias Drexel raised and trained them both, and Petra is determined to prove worthy of his trust.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Hooded Lanterns, contact, lieutenant, ranger, scout", "Hooded Lanterns"),
+        ("High Flamekeeper Ophelia Reed", "Faction contact — Knights of the Silver Order", """ROLE
+High Flamekeeper, chaplain, and closest counsellor to Knight-Captain Theodore Marshal in the Silver Order’s Drakkenheim expedition.
+
+APPEARANCE
+A stout Black human woman in her late forties with a warm smile, rounded features, and braided hair. She wears yellow-and-white robes and carries a silvered staff and ever-burning censer.
+
+PERSONALITY
+Patient, attentive, and kind. She seeks the proper remedy for every problem, but believes some corruption can be answered only by death.
+
+RELATIONSHIPS & RESOURCES
+She has taken a vow of poverty and devoted her life to the Sacred Flame. She offers healing, counsel, historical knowledge, and restorative magic to proven allies.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Silver Order, contact, high flamekeeper, chaplain, sacred flame", "Knights of the Silver Order"),
+        ("Blackjack Mel", "Faction contact — The Queen’s Men", """ROLE
+Faction lieutenant, fixer, and public intermediary for the Queen of Thieves. He is usually found at the Skull & Sword Taphouse.
+
+APPEARANCE
+A short, scrawny human man in his late thirties with a clean-shaven face and greasy slicked-back hair. His black jacket and buckled slacks look distinguished from afar but are shabby up close.
+
+PERSONALITY
+Sleazy, persistent, and always hunting for the angle that closes a deal. He believes everyone acts for themselves and treats favours as currency.
+
+RELATIONSHIPS
+Mel can arrange contact with the Queen of Thieves. He is also a compulsive liar who sometimes loses track of his own inventions.
+
+SOURCE
+Dungeons of Drakkenheim, Chapter 3: Factions.""", "Queen's Men, contact, lieutenant, fixer, scoundrel", "The Queen’s Men"),
+)
+
+
 def seed_players():
     """Create the initial Session 0 roster once, without touching later edits."""
     names = ("Derrek", "Kylan", "Charles", "Gaelen", "Wilgy", "Victor", "Loyd", "Seth")
@@ -133,6 +221,25 @@ def seed_faction_profiles():
                         "INSERT INTO entries(kind,name,summary,body,tags,status,extra) VALUES(?,?,?,?,?,'Active','{}')",
                         (kind, name, summary, body, tags),
                     )
+        for name, summary, body, tags, faction in FACTION_CONTACTS:
+            exists = conn.execute("SELECT 1 FROM entries WHERE kind='npc' AND lower(name)=lower(?)", (name,)).fetchone()
+            if not exists:
+                conn.execute(
+                    "INSERT INTO entries(kind,name,summary,body,tags,status,extra) VALUES('npc',?,?,?,?,'Active',?)",
+                    (name, summary, body, tags, json.dumps({"contact":True, "faction":faction})),
+                )
+        contact_factions = {
+            "Archwizard Eldrick Runeweaver":"The Amethyst Academy", "Lucretia Mathias":"Followers of the Falling Fire",
+            "Lord Commander Elias Drexel":"Hooded Lanterns", "Knight-Captain Theodore Marshal":"Knights of the Silver Order",
+            "Queen of Thieves":"The Queen’s Men", **{row[0]:row[4] for row in FACTION_CONTACTS},
+        }
+        for name, faction in contact_factions.items():
+            row = conn.execute("SELECT id,extra FROM entries WHERE kind='npc' AND lower(name)=lower(?)", (name,)).fetchone()
+            if not row: continue
+            try: extra = json.loads(row["extra"] or "{}")
+            except json.JSONDecodeError: extra = {}
+            extra.update({"contact":True, "faction":faction})
+            conn.execute("UPDATE entries SET extra=? WHERE id=?", (json.dumps(extra), row["id"]))
 
 
 def seed_first_session():
@@ -204,9 +311,10 @@ class Handler(SimpleHTTPRequestHandler):
             account = conn.execute("SELECT username,must_change FROM player_accounts WHERE player_id=?", (player_id,)).fetchone()
             sessions = [row_dict(x) for x in conn.execute("SELECT * FROM entries WHERE kind='session' ORDER BY json_extract(extra,'$.date')")]
             letters = [row_dict(x) for x in conn.execute("""SELECT * FROM entries
-                WHERE kind='message' AND json_extract(extra,'$.direction')='dm_to_player'
-                AND CAST(json_extract(extra,'$.player_id') AS INTEGER)=?
+                WHERE kind='message' AND CAST(json_extract(extra,'$.player_id') AS INTEGER)=?
                 ORDER BY created_at DESC""", (player_id,))]
+            contacts = [row_dict(x) for x in conn.execute("""SELECT * FROM entries WHERE kind='npc'
+                AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1 ORDER BY name""")]
         if not row: return None
         player = row_dict(row); extra = player.get("extra", {})
         if extra.get("archived"): return None
@@ -215,8 +323,14 @@ class Handler(SimpleHTTPRequestHandler):
         player["extra"] = {key: extra.get(key, "") for key in allowed}
         player.pop("body", None); player.pop("tags", None)
         safe_letters = [{"id":x["id"], "name":"An Anonymous Whisper" if x.get("extra", {}).get("message_type") == "rumor" else x["name"], "body":x["body"], "created_at":x["created_at"],
-                         "message_type":x.get("extra", {}).get("message_type", "letter")} for x in letters]
-        return {"player":player, "sessions":sessions, "letters":safe_letters, "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
+                         "message_type":x.get("extra", {}).get("message_type", "letter"),
+                         "direction":x.get("extra", {}).get("direction", "dm_to_player"),
+                         "contact_id":x.get("extra", {}).get("contact_id"),
+                         "contact_name":x.get("extra", {}).get("contact_name", "")} for x in letters]
+        safe_contacts = [{"id":x["id"], "name":x["name"], "faction":x.get("extra", {}).get("faction", "")}
+                         for x in contacts]
+        return {"player":player, "sessions":sessions, "letters":safe_letters, "contacts":safe_contacts,
+                "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -404,6 +518,8 @@ class Handler(SimpleHTTPRequestHandler):
             message_type = str(d.get("message_type", "")).strip().lower()
             subject = str(d.get("subject", "")).strip()
             message = str(d.get("message", "")).strip()
+            try: contact_id = int(d.get("contact_id") or 0)
+            except (TypeError, ValueError): contact_id = 0
             if message_type not in ("quest", "letter"):
                 self.json({"error":"Choose a personal quest update or a letter"}, 400); return
             if not message:
@@ -413,12 +529,21 @@ class Handler(SimpleHTTPRequestHandler):
             with db() as conn:
                 player = conn.execute("SELECT name FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
                 if not player: self.json({"error":"Player not found"}, 404); return
+                contact = None
+                if message_type == "letter" and contact_id:
+                    contact = conn.execute("""SELECT name FROM entries WHERE id=? AND kind='npc'
+                        AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1""", (contact_id,)).fetchone()
+                    if not contact: self.json({"error":"Choose an available contact"}, 400); return
                 label = "Personal Quest Update" if message_type == "quest" else "Letter"
                 title = subject or label
-                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type, "direction":"player_to_dm"})
+                recipient = contact["name"] if contact else "Dungeon Master"
+                contact_id = contact_id if contact else 0
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":message_type,
+                                    "direction":"player_to_dm", "contact_id":contact_id or None,
+                                    "contact_name":contact["name"] if contact else ""})
                 cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
                     VALUES('message',?,?,?,?,?,?)""",
-                    (f"{label} — {player['name']}: {title}", f"Private dispatch from {player['name']}", message,
+                    (f"{label} — {player['name']} to {recipient}: {title}", f"Private dispatch from {player['name']} to {recipient}", message,
                      "private, player dispatch", "Unread", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/player-letter/"):
@@ -426,6 +551,8 @@ class Handler(SimpleHTTPRequestHandler):
             try: player_id = int(self.path.rsplit("/", 1)[1])
             except ValueError: self.send_error(404); return
             d = self.body(); subject = str(d.get("subject", "")).strip(); message = str(d.get("message", "")).strip()
+            try: contact_id = int(d.get("contact_id") or 0)
+            except (TypeError, ValueError): contact_id = 0
             if not message: self.json({"error":"Write a letter before sending"}, 400); return
             if len(subject) > 120 or len(message) > 5000:
                 self.json({"error":"Subject or letter is too long"}, 400); return
@@ -435,12 +562,20 @@ class Handler(SimpleHTTPRequestHandler):
                 try: player_extra = json.loads(player["extra"] or "{}")
                 except json.JSONDecodeError: player_extra = {}
                 if player_extra.get("archived"): self.json({"error":"Archived players cannot receive letters"}, 409); return
-                title = subject or "A Letter from the DM"
-                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":"letter", "direction":"dm_to_player"})
+                contact = None
+                if contact_id:
+                    contact = conn.execute("""SELECT name FROM entries WHERE id=? AND kind='npc'
+                        AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1""", (contact_id,)).fetchone()
+                    if not contact: self.json({"error":"Choose an available contact"}, 400); return
+                sender = contact["name"] if contact else "Dungeon Master"
+                title = subject or f"A Letter from {sender}"
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "message_type":"letter",
+                                    "direction":"dm_to_player", "contact_id":contact_id or None,
+                                    "contact_name":contact["name"] if contact else ""})
                 cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
                     VALUES('message',?,?,?,?,?,?)""",
-                    (f"Letter to {player['name']}: {title}", f"Private letter sent to {player['name']}", message,
-                     "private, DM letter", "Sent", extra))
+                    (f"Letter from {sender} to {player['name']}: {title}", f"Private letter from {sender} to {player['name']}", message,
+                     "private, contact letter" if contact else "private, DM letter", "Sent", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/player-rumor/"):
             if not self.require_local(): return

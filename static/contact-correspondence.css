@@ -1,0 +1,24 @@
+.npc-compose {
+  margin-top: 28px;
+}
+
+.npc-compose .viewer-wax {
+  font-size: 9px;
+}
+
+.letter.player-sent {
+  margin-left: 12%;
+  background: linear-gradient(145deg, #aaa27e, #786f54);
+  border-color: #c1b589;
+}
+
+.letter.player-sent .wax-seal {
+  background: #493355;
+  border-color: #745487;
+}
+
+@media (max-width: 760px) {
+  .letter.player-sent {
+    margin-left: 0;
+  }
+}
