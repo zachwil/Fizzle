@@ -22,6 +22,45 @@
   gap: 9px;
 }
 
+.room-map {
+  display: grid;
+  grid-template-columns: minmax(190px, 260px) 1fr;
+  align-items: center;
+  gap: 18px;
+  margin: 10px 0 20px;
+  padding: 12px;
+  border: 1px solid #3e4235;
+  background: #0d100c;
+}
+
+.room-map svg {
+  display: block;
+  width: 100%;
+  color: #667044;
+  filter: drop-shadow(0 5px 8px #0008);
+}
+
+.room-map .room-outline {
+  fill: #24291d99;
+  stroke: var(--acid);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.room-map .room-level {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.room-map figcaption {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
 .room-detail {
   display: grid;
   grid-template-columns: 95px 1fr;
@@ -42,6 +81,14 @@
 }
 
 @media (max-width: 480px) {
+  .room-map {
+    grid-template-columns: 1fr;
+  }
+
+  .room-map svg {
+    max-height: 210px;
+  }
+
   .room-detail {
     grid-template-columns: 1fr;
     gap: 3px;
