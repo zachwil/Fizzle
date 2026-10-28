@@ -20,7 +20,7 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", ROOT))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB = DATA_DIR / "campaign.db"
 STATIC = ROOT / "static"
-KINDS = {"player", "npc", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name"}
+KINDS = {"player", "npc", "mission", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name"}
 SESSIONS = {}
 DM_SESSIONS = set()
 DISPLAY_SESSIONS = set()
@@ -251,6 +251,155 @@ def seed_first_session():
                 "INSERT INTO entries(kind,name,summary,status,extra) VALUES('session',?,?,?,?)",
                 ("Session 0", "Character creation and campaign setup", "Scheduled", json.dumps({"date":"2026-09-23", "start_time":"", "location":"", "agenda":"Complete characters and establish party connections."})),
             )
+
+
+def seed_sample_missions():
+    """Add original ready-to-run faction missions without overwriting edits."""
+    missions = (
+        {
+            "name":"Resonance Beneath the Glassworks", "faction":"The Amethyst Academy", "level":"Levels 3–4",
+            "summary":"Recover an experimental resonance lens before its signal draws something worse into the ruined glassworks.",
+            "tags":"Amethyst Academy, arcane, delerium, investigation",
+            "body":"""MISSION HOOK
+River offers controlled access to Academy supplies if the party retrieves a brass-and-crystal resonance lens lost beneath an abandoned glassworks. The device has begun broadcasting a magical pulse through the Haze.
+
+PRIMARY OBJECTIVES
+• Reach the glassworks before a rival scavenger crew.
+• Shut down or safely recover the resonance lens.
+• Determine what has been answering its signal.
+
+SCENE BEATS
+1. Shattered Workshop — Unstable glass sheets turn movement into a noisy hazard while rival scavengers search the floor.
+2. Harmonic Vault — Three tuning pillars must be aligned; a failed attempt causes an arcane backlash and advances the threat.
+3. The Answering Shape — A haze-warped predator arrives through a fractured mirror as the lens reaches full resonance.
+
+COMPLICATION
+The lens contains a recorded voice claiming the Academy knew the test could attract extraplanar creatures. Returning it intact earns River’s trust; revealing the recording creates leverage but damages the relationship.
+
+OUTCOMES
+Success earns Academy spellcasting assistance and the lens as a future research lead. Destroying the device prevents further incursions but disappoints the Academy. A rival escapee may sell news of the discovery.""",
+            "npcs":[
+                {"name":"Academy Field Arcanist","type":"Medium humanoid, neutral","ac":"13 (16 with arcane ward)","hp":"27 (5d8 + 5)","speed":"30 ft.","abilities":"STR 9 · DEX 14 · CON 12 · INT 17 · WIS 12 · CHA 11","saves":"Int +5, Wis +3","skills":"Arcana +5, Investigation +5","senses":"passive Perception 11","languages":"Common plus two others","cr":"CR 2 (450 XP)","traits":["Arcane Ward (1/Day). When hit, the arcanist gains +3 AC against that attack, potentially causing it to miss."],"actions":["Arcane Bolt. Ranged Spell Attack: +5 to hit, range 120 ft., one target. Hit: 10 (2d6 + 3) force damage.","Resonant Pulse (Recharge 5–6). Creatures in a 15-foot cone make a DC 13 Con save, taking 14 (4d6) thunder damage on a failure, or half on a success."]},
+                {"name":"Mirror-Haze Stalker","type":"Large aberration, unaligned","ac":"14","hp":"68 (8d10 + 24)","speed":"40 ft., climb 30 ft.","abilities":"STR 18 · DEX 15 · CON 16 · INT 5 · WIS 14 · CHA 7","saves":"Dex +4, Wis +4","skills":"Perception +4, Stealth +4","senses":"darkvision 60 ft., passive Perception 14","languages":"—","cr":"CR 4 (1,100 XP)","traits":["Reflected Step. As a bonus action near glass or a mirror, the stalker teleports up to 20 feet to another reflective surface it can see."],"actions":["Multiattack. The stalker makes two Claw attacks.","Claw. Melee Weapon Attack: +6 to hit, reach 5 ft. Hit: 11 (2d6 + 4) slashing damage.","Splintering Gaze (Recharge 6). One creature within 60 feet makes a DC 13 Wis save or takes 18 (4d8) psychic damage and is frightened until the end of its next turn."]}
+            ]
+        },
+        {
+            "name":"Lanterns on the Pilgrim Road", "faction":"Followers of the Falling Fire", "level":"Levels 3–4",
+            "summary":"Escort a divided band of pilgrims through the Outer City while deciding whose visions can be trusted.",
+            "tags":"Falling Fire, escort, pilgrims, Haze",
+            "body":"""MISSION HOOK
+Nathaniel Flint asks the party to escort twelve pilgrims to a roadside shrine inside the Haze. One pilgrim has recurring visions of a safer path, while another insists the visions are a temptation.
+
+PRIMARY OBJECTIVES
+• Keep at least eight pilgrims together and alive.
+• Reach the shrine before nightfall.
+• Decide whether to follow the mapped route or the visionary’s detour.
+
+SCENE BEATS
+1. The Broken Procession — A collapsed street forces the group through unstable row houses or an exposed square.
+2. The Divided Faithful — Fear splits the pilgrims. Calm leadership, proof, or compassion prevents desertion.
+3. Shrine of Embers — Haze-fed hunters surround the shrine while the pilgrims complete a ten-minute rite.
+
+COMPLICATION
+The visionary’s route is genuinely safer, but leads past a delerium growth that induces a shared revelation. Characters who approach it glimpse a possible future at a personal cost chosen by the DM.
+
+OUTCOMES
+Saving the procession earns the Followers’ hospitality and Nathaniel’s confidence. Forcing the pilgrims onward without regard for casualties completes the route but creates a resentful survivor.""",
+            "npcs":[
+                {"name":"Falling Fire Guide","type":"Medium humanoid, lawful neutral","ac":"14","hp":"32 (5d8 + 10)","speed":"30 ft.","abilities":"STR 12 · DEX 12 · CON 14 · INT 10 · WIS 16 · CHA 14","saves":"Wis +5, Cha +4","skills":"Insight +5, Medicine +5, Religion +3","senses":"passive Perception 13","languages":"Common","cr":"CR 2 (450 XP)","traits":["Steadfast Faith. The guide and allies within 10 feet have advantage on saves against being frightened."],"actions":["Quarterstaff. Melee Weapon Attack: +3 to hit. Hit: 5 (1d8 + 1) bludgeoning damage.","Guiding Ember (3/Day). Ranged Spell Attack: +5 to hit, range 60 ft. Hit: 10 (3d6) radiant damage; the next attack against the target has advantage."]},
+                {"name":"Haze Prowler","type":"Medium monstrosity, unaligned","ac":"14","hp":"45 (6d8 + 18)","speed":"40 ft.","abilities":"STR 16 · DEX 16 · CON 16 · INT 4 · WIS 13 · CHA 6","saves":"Dex +5","skills":"Perception +3, Stealth +7","senses":"darkvision 60 ft., passive Perception 13","languages":"—","cr":"CR 3 (700 XP)","traits":["Haze Camouflage. The prowler can Hide while lightly obscured by mist, smoke, or the Haze."],"actions":["Multiattack. The prowler makes two Talon attacks.","Talon. Melee Weapon Attack: +5 to hit. Hit: 8 (1d10 + 3) slashing damage.","Dragging Leap. The prowler leaps up to 20 feet and makes a Talon attack. On a hit, the target must succeed on a DC 13 Str save or fall prone."]}
+            ]
+        },
+        {
+            "name":"The Silent Watchtower", "faction":"Hooded Lanterns", "level":"Levels 4–5",
+            "summary":"Restore a vital signal tower whose garrison vanished after reporting lights beneath the street.",
+            "tags":"Hooded Lanterns, military, rescue, watchtower",
+            "body":"""MISSION HOOK
+Elias Drexel has lost contact with a watchtower guarding a supply route. The final signal reported green lights moving beneath the cobbles. The party must restore the beacon and account for the garrison.
+
+PRIMARY OBJECTIVES
+• Secure the watchtower and relight its signal brazier.
+• Find the six missing Lanterns.
+• Keep the underground threat away from the supply route.
+
+SCENE BEATS
+1. Empty Barricades — The defences face inward, and drag marks lead to the cellar.
+2. Buried Service Tunnel — The missing soldiers are cocooned along a delerium-veined tunnel; freeing them risks alerting the brood.
+3. Hold the Tower — Lighting the beacon draws the brood brute and smaller creatures into a three-round defence.
+
+COMPLICATION
+The Lantern sergeant concealed early signs of contamination in two soldiers to avoid abandoning the post. The party must decide how to report and treat them.
+
+OUTCOMES
+Restoring the tower opens a safe route and a Lantern supply cache. Honest reporting earns Drexel’s respect but may condemn contaminated survivors; concealment preserves lives while creating future risk.""",
+            "npcs":[
+                {"name":"Hooded Lantern Sergeant","type":"Medium humanoid, lawful neutral","ac":"17 (chain shirt, shield)","hp":"44 (8d8 + 8)","speed":"30 ft.","abilities":"STR 15 · DEX 14 · CON 13 · INT 11 · WIS 14 · CHA 13","saves":"Str +4, Wis +4","skills":"Athletics +4, Perception +4, Survival +4","senses":"passive Perception 14","languages":"Common","cr":"CR 3 (700 XP)","traits":["Hold the Line. Allies within 10 feet gain +1 AC while the sergeant is conscious."],"actions":["Multiattack. The sergeant makes two Longsword attacks.","Longsword. Melee Weapon Attack: +4 to hit. Hit: 6 (1d8 + 2) slashing damage.","Rally (Recharge 5–6). Up to three allies within 30 feet gain 7 temporary hit points and may move 10 feet without provoking opportunity attacks."]},
+                {"name":"Delerium Brood Brute","type":"Large monstrosity, unaligned","ac":"15","hp":"85 (10d10 + 30)","speed":"30 ft., burrow 15 ft.","abilities":"STR 19 · DEX 10 · CON 17 · INT 3 · WIS 12 · CHA 5","saves":"Con +6","skills":"Perception +4","senses":"tremorsense 30 ft., darkvision 60 ft., passive Perception 14","languages":"—","cr":"CR 5 (1,800 XP)","traits":["Crystal Carapace. The first time each round the brute takes spell damage, reduce that damage by 5."],"actions":["Multiattack. The brute makes two Crush attacks.","Crush. Melee Weapon Attack: +7 to hit, reach 10 ft. Hit: 13 (2d8 + 4) bludgeoning damage.","Shard Eruption (Recharge 5–6). Creatures within 15 feet make a DC 14 Dex save, taking 21 (6d6) piercing damage on a failure, or half on a success."]}
+            ]
+        },
+        {
+            "name":"The Cinders of Saint Brenna", "faction":"Knights of the Silver Order", "level":"Levels 5–6",
+            "summary":"Recover a sacred ember from a ruined chapel before a corrupted guardian snuffs it out forever.",
+            "tags":"Silver Order, sacred flame, undead, relic",
+            "body":"""MISSION HOOK
+Ophelia Reed believes an ember from Saint Brenna’s sanctuary still burns beneath a ruined chapel. The Silver Order needs it to consecrate a field hospital, but the dead around the chapel have begun walking.
+
+PRIMARY OBJECTIVES
+• Enter the sealed undercroft without extinguishing its warding flames.
+• Recover the saint’s ember in a consecrated vessel.
+• Lay the corrupted guardian to rest or redeem it.
+
+SCENE BEATS
+1. Ashen Nave — Braziers must be lit in the correct order while ash-wights close in.
+2. Confession Door — The undercroft opens only after a character truthfully admits a failure or sacrifice.
+3. The Last Keeper — A former Flamekeeper guards the ember, convinced all living visitors are contaminated.
+
+COMPLICATION
+The guardian can be redeemed by presenting evidence that the Sacred Flame still serves the people, turning the climax into a tense social encounter under attack by lesser undead.
+
+OUTCOMES
+Returning the ember unlocks Silver Order healing services. Redeeming the keeper impresses Ophelia; simply destroying it satisfies Theodore Marshal but leaves unanswered questions in the chapel archive.""",
+            "npcs":[
+                {"name":"Silver Order Flamekeeper","type":"Medium humanoid, lawful good","ac":"16 (scale mail, shield)","hp":"38 (7d8 + 7)","speed":"30 ft.","abilities":"STR 13 · DEX 10 · CON 12 · INT 12 · WIS 17 · CHA 15","saves":"Wis +6, Cha +5","skills":"Medicine +6, Religion +4","senses":"passive Perception 13","languages":"Common, Celestial","cr":"CR 3 (700 XP)","traits":["Sacred Shelter. Allies within 10 feet have advantage on death saving throws."],"actions":["Mace. Melee Weapon Attack: +3 to hit. Hit: 4 (1d6 + 1) bludgeoning plus 4 (1d8) radiant damage.","Flame of Rebuke (Recharge 5–6). One creature within 60 feet makes a DC 14 Dex save, taking 18 (4d8) radiant damage on a failure, or half on a success.","Healing Prayer (2/Day). A creature within 30 feet regains 12 (2d8 + 3) hit points."]},
+                {"name":"Cinderbound Keeper","type":"Medium undead, lawful neutral","ac":"17","hp":"90 (12d8 + 36)","speed":"30 ft.","abilities":"STR 16 · DEX 12 · CON 16 · INT 11 · WIS 15 · CHA 14","saves":"Con +6, Wis +5","skills":"Insight +5, Religion +3","senses":"darkvision 60 ft., passive Perception 12","languages":"Common, Celestial","cr":"CR 5 (1,800 XP)","traits":["Undying Vigil. If reduced to 0 hit points while the sacred ember burns, the keeper drops to 1 hit point instead; this works once.","Turn Resistance. The keeper has advantage on saves against effects that turn undead."],"actions":["Multiattack. The keeper makes two Ashen Blade attacks.","Ashen Blade. Melee Weapon Attack: +6 to hit. Hit: 8 (1d10 + 3) slashing plus 4 (1d8) fire damage.","Cinder Wave (Recharge 5–6). Creatures in a 20-foot cone make a DC 14 Con save, taking 18 (4d8) fire damage and becoming blinded until their next turn on a failure; half damage without blindness on a success."]}
+            ]
+        },
+        {
+            "name":"The Ledger at Buckledown Row", "faction":"The Queen’s Men", "level":"Levels 4–5",
+            "summary":"Steal a smuggler’s ledger during a gang auction without revealing who hired the party—or what else the book contains.",
+            "tags":"Queen's Men, heist, gangs, intrigue",
+            "body":"""MISSION HOOK
+Blackjack Mel offers the party a simple theft: acquire a coded ledger being auctioned in Buckledown Row. He insists the book belongs to the Queen, but several buyers claim it proves who has been selling contaminated supplies.
+
+PRIMARY OBJECTIVES
+• Enter the auction by invitation, disguise, or infiltration.
+• Obtain the ledger without uniting the gangs against the party.
+• Decide whether to deliver, copy, expose, or destroy its contents.
+
+SCENE BEATS
+1. Price of Admission — The doorkeeper demands a secret, valuable collateral, or victory in a nonlethal bout.
+2. Crooked Auction — Bids include coin, favours, blackmail, and future crimes. Characters can manipulate rival bidders.
+3. Knives in the Dark — When the ledger changes hands, a masked thief cuts the lights and every faction moves at once.
+
+COMPLICATION
+The ledger implicates one of Mel’s own allies and contains payments connected to a respectable Emberwood merchant. The masked thief is trying to expose the scheme, not profit from it.
+
+OUTCOMES
+Giving Mel the only copy earns access to Queen’s Men information. Keeping a copy creates leverage. Public exposure disrupts contaminated supplies but makes the party enemies among several gangs.""",
+            "npcs":[
+                {"name":"Queen’s Men Fixer","type":"Medium humanoid, chaotic neutral","ac":"15 (studded leather)","hp":"39 (6d8 + 12)","speed":"30 ft.","abilities":"STR 10 · DEX 17 · CON 14 · INT 14 · WIS 12 · CHA 16","saves":"Dex +5, Cha +5","skills":"Deception +7, Insight +3, Sleight of Hand +5, Stealth +5","senses":"passive Perception 11","languages":"Common, thieves’ cant","cr":"CR 3 (700 XP)","traits":["Cunning Action. The fixer can Dash, Disengage, or Hide as a bonus action.","Underhanded Strike (1/Turn). The fixer deals an extra 7 (2d6) damage when attacking with advantage or while an ally is adjacent to the target."],"actions":["Multiattack. The fixer makes two attacks with Rapier or Hand Crossbow.","Rapier. Melee Weapon Attack: +5 to hit. Hit: 7 (1d8 + 3) piercing damage.","Hand Crossbow. Ranged Weapon Attack: +5 to hit, range 30/120 ft. Hit: 6 (1d6 + 3) piercing damage."]},
+                {"name":"Buckledown Gang Enforcer","type":"Medium humanoid, any non-good alignment","ac":"16 (breastplate)","hp":"65 (10d8 + 20)","speed":"30 ft.","abilities":"STR 17 · DEX 13 · CON 15 · INT 9 · WIS 11 · CHA 12","saves":"Str +6, Con +5","skills":"Athletics +6, Intimidation +4","senses":"passive Perception 10","languages":"Common","cr":"CR 4 (1,100 XP)","traits":["Crowd Fighter. The enforcer gains +2 damage for each conscious ally adjacent to its target, to a maximum of +6."],"actions":["Multiattack. The enforcer makes two Heavy Club attacks.","Heavy Club. Melee Weapon Attack: +6 to hit. Hit: 10 (2d6 + 3) bludgeoning damage.","Make an Example (Recharge 5–6). After hitting a creature, each enemy within 15 feet must succeed on a DC 13 Wis save or become frightened of the enforcer until the end of its next turn."]}
+            ]
+        },
+    )
+    with db() as conn:
+        for mission in missions:
+            exists = conn.execute("SELECT 1 FROM entries WHERE kind='mission' AND lower(name)=lower(?)", (mission["name"],)).fetchone()
+            if exists: continue
+            extra = {"faction":mission["faction"], "level":mission["level"], "npcs":mission["npcs"], "sample":True}
+            conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
+                VALUES('mission',?,?,?,?,'Ready',?)""",
+                (mission["name"], mission["summary"], mission["body"], mission["tags"], json.dumps(extra)))
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -680,6 +829,7 @@ if __name__ == "__main__":
     seed_player_accounts()
     seed_faction_profiles()
     seed_first_session()
+    seed_sample_missions()
     url = f"http://127.0.0.1:{PORT}"
     print(f"Drakkenheim dashboard running at {url} (Ctrl+C to stop)")
     try:
