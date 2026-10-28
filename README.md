@@ -15,7 +15,7 @@ Fizzle is a private, zero-dependency campaign manager with separate Dungeon Mast
 - Distinct wax seals for each faction, the DM, players, and anonymous rumours
 - Inline player replies from received DM or faction letters
 - NPC directory grouped by faction, enemies and threats, or independent affiliation
-- Five ready-to-run Drakkenheim mission briefs—one per major faction—with hooks, scene beats, outcomes, and compact NPC/creature statlines
+- Ten ready-to-run Drakkenheim mission briefs—two per major faction, including five tuned for level 2—with hooks, scene beats, outcomes, and compact NPC/creature statlines
 - Session calendar with interactive per-session agenda checklists, plus a session-preparation task list
 - Favorites, statuses, tags, and structured campaign notes
 - d100 Drakkenheim rumour roller

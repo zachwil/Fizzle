@@ -391,6 +391,141 @@ Giving Mel the only copy earns access to Queen’s Men information. Keeping a co
                 {"name":"Buckledown Gang Enforcer","type":"Medium humanoid, any non-good alignment","ac":"16 (breastplate)","hp":"65 (10d8 + 20)","speed":"30 ft.","abilities":"STR 17 · DEX 13 · CON 15 · INT 9 · WIS 11 · CHA 12","saves":"Str +6, Con +5","skills":"Athletics +6, Intimidation +4","senses":"passive Perception 10","languages":"Common","cr":"CR 4 (1,100 XP)","traits":["Crowd Fighter. The enforcer gains +2 damage for each conscious ally adjacent to its target, to a maximum of +6."],"actions":["Multiattack. The enforcer makes two Heavy Club attacks.","Heavy Club. Melee Weapon Attack: +6 to hit. Hit: 10 (2d6 + 3) bludgeoning damage.","Make an Example (Recharge 5–6). After hitting a creature, each enemy within 15 feet must succeed on a DC 13 Wis save or become frightened of the enforcer until the end of its next turn."]}
             ]
         },
+        {
+            "name":"The Violet Lantern", "faction":"Amethyst Academy", "level":"Level 2",
+            "summary":"Recover a fallen survey lantern from the edge of the ruins before its unstable crystal attracts something worse.",
+            "tags":"Amethyst Academy, level 2, recovery, delerium",
+            "body":"""MISSION HOOK
+River asks the party to retrieve a violet survey lantern lost during a hasty retreat. Its crystal is pulsing beneath a shattered glassworks and drawing scavengers from the surrounding streets.
+
+PRIMARY OBJECTIVES
+• Find the lantern before its crystal overloads.
+• Record the strange markings discovered around it.
+• Return it without exposing anyone to its cracked casing.
+
+SCENE BEATS
+1. Broken Trail — Arcane scorch marks and abandoned equipment reveal where the survey team fled.
+2. Glasswork Nest — Crystal-backed vermin circle the lantern among dangerously unstable panes.
+3. The Final Pulse — The party has three rounds to shut down, shield, or safely remove the crystal.
+
+COMPLICATION
+An Academy apprentice who stayed behind insists the markings prove the lantern found a hidden chamber and wants the party to delay their retreat.
+
+OUTCOMES
+Returning the lantern earns Academy supplies and River’s trust. Recovering the survey notes reveals a useful route into the ruins; breaking the crystal makes the area safer but disappoints the Academy.""",
+            "npcs":[
+                {"name":"Academy Apprentice","type":"Medium humanoid, any alignment","ac":"12 (15 with arcane ward)","hp":"16 (3d8 + 3)","speed":"30 ft.","abilities":"STR 9 · DEX 14 · CON 12 · INT 15 · WIS 11 · CHA 10","saves":"Int +4","skills":"Arcana +4, Investigation +4","senses":"passive Perception 10","languages":"Common, Draconic","cr":"CR 1/2 (100 XP)","traits":["Arcane Ward (1/Day). As a reaction when hit, the apprentice gains +3 AC against that attack."],"actions":["Arcane Bolt. Ranged Spell Attack: +4 to hit, range 60 ft. Hit: 7 (2d6) force damage.","Static Snare (Recharge 6). One creature within 30 feet must succeed on a DC 12 Str save or have speed 0 until the end of its next turn."]},
+                {"name":"Crystal-Backed Vermin","type":"Small monstrosity, unaligned","ac":"13","hp":"22 (4d6 + 8)","speed":"30 ft., climb 20 ft.","abilities":"STR 12 · DEX 14 · CON 14 · INT 3 · WIS 12 · CHA 5","saves":"—","skills":"Perception +3, Stealth +4","senses":"darkvision 30 ft., passive Perception 13","languages":"—","cr":"CR 1 (200 XP)","traits":["Fractured Carapace. When first reduced below 11 hit points, creatures within 5 feet must make a DC 11 Dex save or take 3 (1d6) piercing damage."],"actions":["Bite. Melee Weapon Attack: +4 to hit. Hit: 7 (1d10 + 2) piercing damage."]}
+            ]
+        },
+        {
+            "name":"Embers for the Road", "faction":"The Followers of the Falling Fire", "level":"Level 2",
+            "summary":"Recover a pilgrim caravan’s stolen provisions before nightfall leaves the faithful exposed to the Haze.",
+            "tags":"Falling Fire, level 2, escort, negotiation",
+            "body":"""MISSION HOOK
+Lucretia Mathias asks the party to find medicine and lamp oil stolen from a pilgrim camp. Tracks lead toward an abandoned tollhouse just beyond Emberwood Village.
+
+PRIMARY OBJECTIVES
+• Recover the medicine and lamp oil.
+• Keep the novice guide alive.
+• Resolve the theft before the pilgrims must travel after dark.
+
+SCENE BEATS
+1. Divided Camp — Frightened witnesses disagree about the number and nature of the thieves.
+2. Tollhouse Parley — Hungry refugees took the supplies and barricaded themselves against prowling beasts.
+3. Last Light — Haze-starved jackals attack while the party chooses how to divide the provisions.
+
+COMPLICATION
+The refugees include a sick child who needs the same medicine as an elderly pilgrim. Neither group has enough without the party finding an alternative.
+
+OUTCOMES
+A peaceful solution builds goodwill with the Falling Fire and the refugees. Recovering every crate completes the task, while finding the hidden herbal cache saves both patients and earns a future guide.""",
+            "npcs":[
+                {"name":"Pilgrim Warden","type":"Medium humanoid, lawful neutral","ac":"14 (leather, shield)","hp":"18 (4d8)","speed":"30 ft.","abilities":"STR 12 · DEX 12 · CON 11 · INT 10 · WIS 15 · CHA 13","saves":"Wis +4","skills":"Medicine +4, Survival +4","senses":"passive Perception 12","languages":"Common","cr":"CR 1/2 (100 XP)","traits":["Guiding Word (2/Day). A creature within 30 feet adds 1d4 to one saving throw it just made."],"actions":["Spear. Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft. Hit: 4 (1d6 + 1) piercing damage."]},
+                {"name":"Haze-Starved Jackal","type":"Medium monstrosity, unaligned","ac":"13","hp":"26 (4d8 + 8)","speed":"40 ft.","abilities":"STR 14 · DEX 15 · CON 14 · INT 3 · WIS 13 · CHA 6","saves":"—","skills":"Perception +3, Stealth +4","senses":"darkvision 60 ft., passive Perception 13","languages":"—","cr":"CR 1 (200 XP)","traits":["Pack Tactics. The jackal has advantage on an attack roll if an ally is within 5 feet of the target."],"actions":["Bite. Melee Weapon Attack: +4 to hit. Hit: 7 (1d10 + 2) piercing damage; the target must succeed on a DC 11 Str save or fall prone."]}
+            ]
+        },
+        {
+            "name":"The Missing Greencloak", "faction":"The Hooded Lanterns", "level":"Level 2",
+            "summary":"Find a missing Lantern scout whose last signal came from a collapsed tenement near the city wall.",
+            "tags":"Hooded Lanterns, level 2, rescue, ruins",
+            "body":"""MISSION HOOK
+Ansom Lang sends the party after a young scout who missed two check-ins. Her green signal ribbon hangs from a tenement window, but looters are already searching the building.
+
+PRIMARY OBJECTIVES
+• Locate and stabilize the missing scout.
+• Recover her map of nearby contamination pockets.
+• Leave before the damaged building collapses.
+
+SCENE BEATS
+1. False Signal — A tripwire at the entrance warns the looters upstairs.
+2. Tilting Floors — Crossing the tenement requires careful movement or shoring up its broken supports.
+3. Shared Escape — The scout is pinned near a delerium seep while the looters’ retreat destabilizes the structure.
+
+COMPLICATION
+The scout learned the looters are displaced residents searching for a family strongbox, not hardened criminals.
+
+OUTCOMES
+Saving the scout earns a reliable map and Lantern favour. Helping recover the strongbox creates local allies; arresting the looters pleases stricter officers but breeds resentment.""",
+            "npcs":[
+                {"name":"Lantern Scout","type":"Medium humanoid, lawful neutral","ac":"14 (studded leather)","hp":"18 (4d8)","speed":"30 ft.","abilities":"STR 11 · DEX 15 · CON 11 · INT 12 · WIS 14 · CHA 10","saves":"Dex +4","skills":"Perception +4, Stealth +4, Survival +4","senses":"passive Perception 14","languages":"Common","cr":"CR 1/2 (100 XP)","traits":["Ruin Runner. Difficult terrain caused by rubble does not cost the scout extra movement."],"actions":["Shortsword. Melee Weapon Attack: +4 to hit. Hit: 5 (1d6 + 2) piercing damage.","Shortbow. Ranged Weapon Attack: +4 to hit, range 80/320 ft. Hit: 5 (1d6 + 2) piercing damage."]},
+                {"name":"Ruin Looter Captain","type":"Medium humanoid, any alignment","ac":"14 (leather)","hp":"27 (5d8 + 5)","speed":"30 ft.","abilities":"STR 13 · DEX 15 · CON 12 · INT 11 · WIS 12 · CHA 13","saves":"—","skills":"Athletics +3, Deception +3, Perception +3","senses":"passive Perception 13","languages":"Common","cr":"CR 1 (200 XP)","traits":["Scramble Away. The captain can Disengage as a bonus action while within 5 feet of rubble or cover."],"actions":["Multiattack. The captain makes two Knife attacks.","Knife. Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft. Hit: 4 (1d4 + 2) piercing damage."]}
+            ]
+        },
+        {
+            "name":"The Bell of Ash and Rain", "faction":"Knights of the Silver Order", "level":"Level 2",
+            "summary":"Cleanse a roadside shrine and recover its silver bell before restless dead overrun a nearby refugee camp.",
+            "tags":"Silver Order, level 2, undead, shrine",
+            "body":"""MISSION HOOK
+Ophelia Reed needs the bell from a desecrated roadside shrine to ward a refugee camp. Each sunset, the bell rings by itself and another ash-covered corpse rises nearby.
+
+PRIMARY OBJECTIVES
+• Reach the shrine before sunset.
+• Discover what binds the dead to its bell.
+• Return the bell after cleansing or reconsecrating it.
+
+SCENE BEATS
+1. Roadside Graves — Disturbed markers reveal that one burial was deliberately omitted.
+2. The Locked Belfry — A simple hymn, force, or climbing route opens the bell tower.
+3. Ash at Sunset — Restless penitents emerge while a trapped spirit begs the party not to take the bell.
+
+COMPLICATION
+The spirit is the shrine’s former keeper, falsely condemned and denied a marked grave. Laying the keeper to rest weakens the undead without a fight.
+
+OUTCOMES
+The cleansed bell protects the camp and earns Silver Order aid. Returning it without resolving the haunting works briefly, but the spirit follows it back.""",
+            "npcs":[
+                {"name":"Silver Order Acolyte","type":"Medium humanoid, lawful good","ac":"15 (chain shirt, shield)","hp":"19 (3d8 + 6)","speed":"30 ft.","abilities":"STR 13 · DEX 10 · CON 14 · INT 10 · WIS 15 · CHA 12","saves":"Wis +4","skills":"Medicine +4, Religion +2","senses":"passive Perception 12","languages":"Common, Celestial","cr":"CR 1/2 (100 XP)","traits":["Steady Flame (1/Day). An ally within 30 feet may reroll a failed save against being frightened."],"actions":["Mace. Melee Weapon Attack: +3 to hit. Hit: 4 (1d6 + 1) bludgeoning damage.","Sacred Spark. Ranged Spell Attack: +4 to hit, range 60 ft. Hit: 5 (1d8 + 1) radiant damage."]},
+                {"name":"Ashen Penitent","type":"Medium undead, neutral","ac":"12","hp":"30 (4d8 + 12)","speed":"25 ft.","abilities":"STR 14 · DEX 10 · CON 16 · INT 6 · WIS 12 · CHA 7","saves":"Con +5","skills":"—","senses":"darkvision 60 ft., passive Perception 11","languages":"understands Common but cannot speak","cr":"CR 1 (200 XP)","traits":["Ashen Body. The penitent is immune to disease and does not need to breathe."],"actions":["Cinder Grasp. Melee Weapon Attack: +4 to hit. Hit: 6 (1d8 + 2) bludgeoning plus 2 (1d4) fire damage.","Choking Ash (Recharge 6). Creatures within 10 feet make a DC 11 Con save or become blinded until the start of the penitent’s next turn."]}
+            ]
+        },
+        {
+            "name":"Three Cards Short", "faction":"The Queen’s Men", "level":"Level 2",
+            "summary":"Retrieve a marked card deck containing a coded message before a rival gang plays the winning hand.",
+            "tags":"Queen's Men, level 2, intrigue, chase",
+            "body":"""MISSION HOOK
+Blackjack Mel claims a sentimental deck was lifted from one of his couriers. In truth, three missing cards encode the place and time of a Queen’s Men exchange.
+
+PRIMARY OBJECTIVES
+• Identify the pickpocket who took the deck.
+• Recover all three missing cards.
+• Keep the exchange location secret.
+
+SCENE BEATS
+1. Market Tell — Questioning gamblers reveals that the deck was split among three young thieves.
+2. Rooftop Cut — One thief runs, one bargains, and one unknowingly sold a card to a dangerous buyer.
+3. Final Hand — The buyer challenges the party to a crooked game while allies close off the exits.
+
+COMPLICATION
+The thieves stole the deck to buy safe passage for their families. Mel cares about the message, not what happens to them.
+
+OUTCOMES
+Returning the cards earns coin and a Queen’s Men contact. Protecting the thieves costs part of the reward but creates a street-level information network.""",
+            "npcs":[
+                {"name":"Street Fixer","type":"Medium humanoid, chaotic neutral","ac":"13 (leather)","hp":"17 (3d8 + 3)","speed":"30 ft.","abilities":"STR 9 · DEX 15 · CON 12 · INT 13 · WIS 12 · CHA 15","saves":"—","skills":"Deception +4, Insight +3, Sleight of Hand +4","senses":"passive Perception 11","languages":"Common, thieves’ cant","cr":"CR 1/2 (100 XP)","traits":["Quick Deal. The fixer can take the Help action as a bonus action when aiding a Deception or Sleight of Hand check."],"actions":["Dagger. Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft. Hit: 4 (1d4 + 2) piercing damage."]},
+                {"name":"Alley Knife","type":"Medium humanoid, any non-lawful alignment","ac":"14 (studded leather)","hp":"24 (4d8 + 4)","speed":"30 ft.","abilities":"STR 11 · DEX 16 · CON 12 · INT 10 · WIS 11 · CHA 12","saves":"Dex +5","skills":"Acrobatics +5, Stealth +5","senses":"passive Perception 10","languages":"Common","cr":"CR 1 (200 XP)","traits":["Sneak Attack (1/Turn). The knife deals an extra 3 (1d6) damage when attacking with advantage or while an ally is adjacent to the target."],"actions":["Multiattack. The knife makes two Dagger attacks.","Dagger. Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft. Hit: 5 (1d4 + 3) piercing damage."]}
+            ]
+        },
     )
     with db() as conn:
         for mission in missions:
