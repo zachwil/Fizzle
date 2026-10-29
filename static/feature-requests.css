@@ -8,3 +8,20 @@
 .feature-request-card .request-status { position: absolute; right: 18px; top: 17px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
 .feature-request-card h3 { padding-right: 76px; }
 @media (max-width: 520px) { .portal-request { align-items: flex-start; flex-direction: column; } }
+.request-queue-head { display: flex; justify-content: space-between; gap: 24px; padding: 24px; margin-bottom: 20px; background: linear-gradient(145deg, #211d28, #171a16); border: 1px solid var(--line); }
+.request-queue-head h2 { margin: 3px 0 7px; font-size: 28px; }
+.request-queue-head p:last-child { margin: 0; color: var(--muted); }
+.request-summary { display: grid; grid-template-columns: repeat(2, minmax(90px, 1fr)); gap: 8px; min-width: 260px; }
+.request-summary span { padding: 10px; border: 1px solid var(--line); color: var(--muted); font: 10px Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+.request-summary b { display: block; color: var(--acid); font: 22px Georgia, serif; }
+.request-list { display: grid; gap: 12px; }
+.request-row { display: grid; grid-template-columns: 1fr 190px; background: linear-gradient(145deg, #1c1f19, #171a16); border: 1px solid var(--line); }
+.request-open { padding: 19px; border: 0; background: none; color: var(--ink); text-align: left; cursor: pointer; }
+.request-open .kind { color: var(--acid); font: 10px Arial, sans-serif; letter-spacing: 1.2px; }
+.request-open h3 { margin: 7px 0 5px; }
+.request-open p, .request-open small { color: var(--muted); }
+.request-open p { margin-bottom: 8px; white-space: pre-line; }
+.request-actions { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 15px; border-left: 1px solid var(--line); }
+.request-actions label { margin: 0; }
+.request-delete { padding: 8px; border: 1px solid #7d3d38; background: transparent; color: #d47a70; cursor: pointer; }
+@media (max-width: 760px) { .request-queue-head { flex-direction: column; } .request-summary { min-width: 0; } .request-row { grid-template-columns: 1fr; } .request-actions { border-left: 0; border-top: 1px solid var(--line); } }

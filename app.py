@@ -688,6 +688,11 @@ class Handler(SimpleHTTPRequestHandler):
                 count = conn.execute("""SELECT count(*) FROM entries WHERE kind='message' AND status='Unread'
                     AND (json_extract(extra,'$.direction')='player_to_dm' OR json_extract(extra,'$.direction') IS NULL)""").fetchone()[0]
             self.json({"unread":count}); return
+        if parsed.path == "/api/feature-request-count":
+            if not self.require_local(): return
+            with db() as conn:
+                count = conn.execute("SELECT count(*) FROM entries WHERE kind='feature_request' AND status='Submitted'").fetchone()[0]
+            self.json({"submitted":count}); return
         if parsed.path == "/api/library":
             if not self.require_local(): return
             library = ROOT / "resources"; files = []
