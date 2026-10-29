@@ -20,7 +20,7 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", ROOT))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB = DATA_DIR / "campaign.db"
 STATIC = ROOT / "static"
-KINDS = {"player", "npc", "mission", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name"}
+KINDS = {"player", "npc", "mission", "location", "faction", "quest", "note", "todo", "session", "rumor", "resource", "map", "message", "name", "feature_request"}
 SESSIONS = {}
 DM_SESSIONS = set()
 DISPLAY_SESSIONS = set()
@@ -599,6 +599,9 @@ class Handler(SimpleHTTPRequestHandler):
                 ORDER BY created_at DESC""", (player_id,))]
             contacts = [row_dict(x) for x in conn.execute("""SELECT * FROM entries WHERE kind='npc'
                 AND CAST(json_extract(extra,'$.contact') AS INTEGER)=1 ORDER BY name""")]
+            feature_requests = [row_dict(x) for x in conn.execute("""SELECT * FROM entries
+                WHERE kind='feature_request' AND CAST(json_extract(extra,'$.player_id') AS INTEGER)=?
+                ORDER BY created_at DESC""", (player_id,))]
         if not row: return None
         player = row_dict(row); extra = player.get("extra", {})
         if extra.get("archived"): return None
@@ -614,7 +617,11 @@ class Handler(SimpleHTTPRequestHandler):
                          "contact_faction":x.get("extra", {}).get("contact_faction", "")} for x in letters]
         safe_contacts = [{"id":x["id"], "name":x["name"], "faction":x.get("extra", {}).get("faction", "")}
                          for x in contacts]
+        safe_requests = [{"id":x["id"], "name":x["name"], "body":x["body"], "status":x["status"],
+                          "created_at":x["created_at"], "category":x.get("extra", {}).get("category", "Other")}
+                         for x in feature_requests]
         return {"player":player, "sessions":sessions, "letters":safe_letters, "contacts":safe_contacts,
+                "feature_requests":safe_requests,
                 "username":account["username"], "must_change":bool(account["must_change"]), "theme":self.get_display_state()["theme"]}
 
     def do_GET(self):
@@ -831,6 +838,27 @@ class Handler(SimpleHTTPRequestHandler):
                     VALUES('message',?,?,?,?,?,?)""",
                     (f"{label} — {player['name']} to {recipient}: {title}", f"Private dispatch from {player['name']} to {recipient}", message,
                      "private, player dispatch", "Unread", extra))
+            self.json({"ok":True,"id":cur.lastrowid}, 201); return
+        if self.path == "/api/portal/feature-requests":
+            player_id = self.player_session()
+            if not player_id: self.json({"error":"Please log in"}, 401); return
+            if not self.portal_data(player_id): self.json({"error":"This player is archived"}, 403); return
+            d = self.body(); title = str(d.get("title", "")).strip(); description = str(d.get("description", "")).strip()
+            category = str(d.get("category", "Other")).strip()
+            allowed_categories = ("New Feature", "Improvement", "Accessibility", "Bug Report", "Other")
+            if not title or not description:
+                self.json({"error":"Add a title and describe your request"}, 400); return
+            if category not in allowed_categories: category = "Other"
+            if len(title) > 120 or len(description) > 3000:
+                self.json({"error":"Title or description is too long"}, 400); return
+            with db() as conn:
+                player = conn.execute("SELECT name FROM entries WHERE id=? AND kind='player'", (player_id,)).fetchone()
+                if not player: self.json({"error":"Player not found"}, 404); return
+                extra = json.dumps({"player_id":player_id, "player_name":player["name"], "category":category})
+                cur = conn.execute("""INSERT INTO entries(kind,name,summary,body,tags,status,extra)
+                    VALUES('feature_request',?,?,?,?,?,?)""",
+                    (title, f"{category} requested by {player['name']}", description,
+                     f"player request, {category.lower()}", "Submitted", extra))
             self.json({"ok":True,"id":cur.lastrowid}, 201); return
         if self.path.startswith("/api/player-letter/"):
             if not self.require_local(): return

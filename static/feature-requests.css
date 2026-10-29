@@ -1,0 +1,10 @@
+.feature-requests > p:not(.eyebrow) { color: var(--muted); }
+.request-history-title { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+.portal-request { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+.portal-request b, .portal-request small { display: block; }
+.portal-request small { color: var(--muted); font-size: 11px; }
+.portal-request > span, .feature-request-card .request-status { flex: none; padding: 4px 8px; border: 1px solid var(--gold); color: var(--acid); font-size: 11px; }
+.feature-request-card { position: relative; }
+.feature-request-card .request-status { position: absolute; right: 18px; top: 17px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+.feature-request-card h3 { padding-right: 76px; }
+@media (max-width: 520px) { .portal-request { align-items: flex-start; flex-direction: column; } }
