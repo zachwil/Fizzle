@@ -25,4 +25,3 @@
 .request-actions label { margin: 0; }
 .request-delete { padding: 8px; border: 1px solid #7d3d38; background: transparent; color: #d47a70; cursor: pointer; }
 @media (max-width: 760px) { .request-queue-head { flex-direction: column; } .request-summary { min-width: 0; } .request-row { grid-template-columns: 1fr; } .request-actions { border-left: 0; border-top: 1px solid var(--line); } }
-body.seth-edition :where(h1, h2, h3, h4, p, span, small, b, strong, em, label, button, a, input, textarea, select, option) { direction: rtl; unicode-bidi: bidi-override; }
